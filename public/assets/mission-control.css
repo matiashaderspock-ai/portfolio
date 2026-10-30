@@ -44,8 +44,7 @@
 .ticker-group { display: flex; gap: 2rem; list-style: none; padding: .8rem 1rem; margin: 0; font-size: .78rem; white-space: nowrap; }
 .ticker-up { color: var(--accent); font-weight: 600; }.ticker-down { color: var(--ticker-negative, #a13a32); font-weight: 600; }.ticker-activity { color: var(--ink); }
 .office-ticker:hover .ticker-track, .office-ticker:focus-within .ticker-track, .office-glass.ticker-paused .ticker-track { animation-play-state: paused; }
-:root[data-theme='dark'] .office-glass { --ticker-negative: #ff9e92; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .office-glass { --ticker-negative: #ff9e92; } }
+:root:not([data-theme='light']) .office-glass { --ticker-negative: #ff9e92; }
 @keyframes office-bob { 50% { translate: 0 -4px; } }
 @keyframes ticker-scroll { to { transform: translateX(-50%); } }
 @media (max-width: 900px) { .office-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

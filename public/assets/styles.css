@@ -1,20 +1,4 @@
 :root {
-  color-scheme: light;
-  --bg: #f6f5ef;
-  --surface: #fcfbf7;
-  --soft: #edeee6;
-  --ink: #192c36;
-  --muted: #52636a;
-  --accent: #396a5e;
-  --accent-soft: #dce5dc;
-  --line: #d6dcd3;
-  --button: #203c37;
-  --button-text: #faf9f3;
-  --shadow: 0 16px 40px #192c3608;
-  --serif: 'Libre Caslon Display', Georgia, 'Times New Roman', serif;
-  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
-}
-:root[data-theme='dark'] {
   color-scheme: dark;
   --bg: #111f2b;
   --surface: #172833;
@@ -27,22 +11,22 @@
   --button: #bbd3bf;
   --button-text: #14271f;
   --shadow: 0 16px 40px #00000012;
+  --serif: 'Libre Caslon Display', Georgia, 'Times New Roman', serif;
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-    --bg: #111f2b;
-    --surface: #172833;
-    --soft: #1b3038;
-    --ink: #edece4;
-    --muted: #b3c1c4;
-    --accent: #a0c4b3;
-    --accent-soft: #28483f;
-    --line: #374a52;
-    --button: #bbd3bf;
-    --button-text: #14271f;
-    --shadow: 0 16px 40px #00000012;
-  }
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f5ef;
+  --surface: #fcfbf7;
+  --soft: #edeee6;
+  --ink: #192c36;
+  --muted: #52636a;
+  --accent: #396a5e;
+  --accent-soft: #dce5dc;
+  --line: #d6dcd3;
+  --button: #203c37;
+  --button-text: #faf9f3;
+  --shadow: 0 16px 40px #192c3608;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
