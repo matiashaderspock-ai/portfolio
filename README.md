@@ -58,13 +58,57 @@ Cloudflare serves the nearest `404.html` for unknown URLs: `/es/404.html` for Sp
 
 - Edit the HTML files in both languages together. Stable section IDs let the language switch retain a home-page section fragment.
 - Language and theme choices are remembered locally in `mh-language` and `mh-theme`. A saved Spanish choice redirects future visits to `/` to `/es/`; the language toggle saves before navigation so English remains accessible. Explicit résumé/error routes retain their requested language. With JavaScript or storage disabled, language links still work.
-- The theme defaults to the device preference and can be overridden using the top-of-page button. Without JavaScript, CSS still follows the device theme.
+- The theme defaults to dark regardless of device preference, including without JavaScript or storage. The top-of-page button switches between dark and light and remembers the choice in `mh-theme`. A saved choice is applied in the document head before styles load to avoid a theme flash. Print styles stay light.
 - Motion is decorative CSS only. `prefers-reduced-motion: reduce` stops all animations, hover movement, smooth scrolling and reveal transitions. Content is visible by default and the reveal effect is added progressively.
 - The résumé’s **Print / Save as PDF** button opens the browser print dialog. Use A4, 100% scale, and disable the browser’s own headers/footers for a clean PDF. Print styles use a white background, local system typography, and omit navigation and page controls. The browser’s native Print command also works without JavaScript.
 - Typography uses DM Sans and Libre Caslon Display via Google Fonts, with system fallbacks. Font requests disclose the visitor’s network address to Google; no analytics, cookies or tracking scripts are included. The `_headers` file supplies a restrictive content policy on Cloudflare Pages.
 
 ## Content sources
 
-Employment, education, certifications, languages and skills follow Matias’s English and Spanish CVs, with the confirmed VFVH award name, project destinations and Yango leadership scope (35+ back-office staff and 1,500+ couriers). Both résumés distinguish the Country Lead and Country Head roles and list Yango as the employer.
+Employment, education, certifications, languages and skills follow Matias’s English and Spanish CVs, with the confirmed VFVH award name, project destinations and Yango leadership scope (35+ back-office staff and 2,000+ couriers). Both résumés distinguish the Country Lead and Country Head roles and list Yango as the employer.
 
 GitHub, LinkedIn and X are linked in the hero, contact section and résumé in each language. WhatsApp and email are linked in the contact section and résumé in each language. Gástalo and Cumpafit have live-app and repository links; Monitor Bol has a private repository and Grok Bot fleet has no public destination, so neither card includes a link slot.
+
+## Latest on X
+
+The English and Spanish home pages include five custom glass cards. They read
+`public/data/x-latest.json`; no X embeds, browser credentials, or client-side API
+calls are used. Static, localized sample cards remain visible with JavaScript
+blocked, on a failed fetch, or when the JSON is marked `sample: true`.
+
+After this PR is manually merged, **Update public X feed** runs every six hours
+(at minute 17 UTC) and supports `workflow_dispatch` on `main`. Add the repository
+Actions secret **X_BEARER_TOKEN** with access to the X API v2 user lookup and
+user-post timeline endpoints. The script resolves `@pandasczos`, requests the
+latest 100 timeline entries excluding replies (keeping posts, quotes, and
+reposts), expands public text/media, and writes up to five eligible entries in
+newest-first order. Missing entries stay as individually labeled sample cards.
+The credential stays in the runner environment. The workflow commits only the
+JSON file to `main`; the existing Cloudflare Pages integration publishes it.
+
+Only `text`, `type` (`post`, `quote`, `repost`), `created_date` (date only), `link`,
+and an optional `thumbnail` are published per entry, alongside the envelope's
+`sample` flag. Protected profiles, sensitive/withheld posts, financial/account
+disclosures, credentials and contact-like text are excluded conservatively;
+rejected post contents and raw API bodies are never logged. Thumbnail URLs are
+restricted to the public `pbs.twimg.com` image CDN, which is the only additional
+image origin allowed by the CSP. Media alt text is screened too. These text
+checks are conservative filters, not image inspection; public source images
+remain the responsibility of the source account.
+
+If the secret is absent, the updater makes no network requests, writes clearly
+marked sample data, and exits successfully. API failures fail the update without
+overwriting the previous file. Nothing schedules or publishes until the workflow
+is on `main`; it never merges PRs or changes auto-merge settings.
+
+Network-free checks and dry runs:
+
+```sh
+python3 -m unittest discover -s scripts -p 'test_x_latest.py' -v
+python3 scripts/update_x_latest.py --sample --output /tmp/x-sample.json
+python3 scripts/update_x_latest.py --fixture /path/to/public-api-fixture.json --output /tmp/x-shaped.json
+python3 scripts/check.py
+```
+
+The JSON contract follows X's [data dictionary](https://docs.x.com/x-api/fundamentals/data-dictionary)
+and [expansions documentation](https://docs.x.com/x-api/fundamentals/expansions).

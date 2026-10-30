@@ -21,9 +21,8 @@
     }
   });
 
-  const systemTheme = matchMedia('(prefers-color-scheme: dark)');
   const themeButton = document.querySelector('.theme-toggle');
-  const activeTheme = () => root.dataset.theme || (systemTheme.matches ? 'dark' : 'light');
+  const activeTheme = () => root.dataset.theme || 'dark';
   function syncThemeButton() {
     if (!themeButton) return;
     const dark = activeTheme() === 'dark';
@@ -38,7 +37,6 @@
       storage.set('mh-theme', root.dataset.theme);
       syncThemeButton();
     });
-    systemTheme.addEventListener('change', syncThemeButton);
   }
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');

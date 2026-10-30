@@ -1,0 +1,13 @@
+.latest-x { padding-top: 2rem; }
+.latest-x h2 { font-size: clamp(2.5rem, 5vw, 3.7rem); }
+.x-status { color: var(--muted); font-size: .8rem; margin: -1rem 0 1.5rem; }
+.x-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .9rem; }
+.x-card { min-width: 0; display: flex; flex-direction: column; padding: 1.2rem; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(140deg, var(--surface), var(--soft)); box-shadow: var(--shadow); }
+.x-kind { font-size: .65rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; }
+.x-card time, .x-sample-note { color: var(--muted); font-size: .65rem; }
+.x-card h3 { font: 600 .8rem var(--sans); margin: 1rem 0 .8rem; }
+.x-text { font-size: .8rem; line-height: 1.7; overflow-wrap: anywhere; white-space: pre-wrap; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; overflow: hidden; }
+.x-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 6px; margin-top: .9rem; }
+.x-card > .text-link { margin-top: auto; padding-top: 1rem; font-size: .75rem; }
+@media (max-width: 1050px) { .x-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .x-strip { grid-template-columns: 1fr; }.x-card { padding: 1.5rem; }.x-card img { height: 180px; } }

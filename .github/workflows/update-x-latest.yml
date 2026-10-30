@@ -1,0 +1,46 @@
+name: Update public X feed
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-x-feed
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Verify JSON shaping
+        run: python3 -m unittest discover -s scripts -p 'test_x_latest.py' -v
+      - name: Refresh public posts (samples when the secret is missing)
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python3 scripts/update_x_latest.py
+      - name: Check static site
+        run: python3 scripts/check.py
+      - name: Commit only the public feed
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/x-latest.json)" ]; then
+            echo "Public feed unchanged."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/data/x-latest.json
+          git commit -m 'Refresh public X feed'
+          git pull --rebase origin main
+          git push origin HEAD:main
