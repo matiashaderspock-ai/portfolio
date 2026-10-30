@@ -4,7 +4,6 @@
 .office-glass { padding: clamp(1rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(125deg, var(--surface), var(--soft)); box-shadow: var(--shadow); }
 .office-heading, .ticker-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .office-heading h3 { font: 2rem var(--serif); }
-.demo-badge { padding: .3rem .9rem; border: 1px solid var(--accent); border-radius: 30px; color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: .12em; }
 .office-hint { color: var(--muted); font-size: .8rem; margin: .7rem 0 1.5rem; }
 .office-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem .6rem; border: 1px solid #315264; border-radius: 16px; padding: 1rem; background: radial-gradient(ellipse at 50% 0%, #19394b, transparent 70%), repeating-linear-gradient(60deg, transparent 0 59px, #91c9e708 60px 61px, transparent 62px 120px), repeating-linear-gradient(-60deg, transparent 0 59px, #91c9e708 60px 61px, transparent 62px 120px), #0d1b26; }
 .bot-desk { position: relative; min-width: 0; color: #eef2ef; }
@@ -37,7 +36,7 @@
 .bot-job, .bot-desk:not([open]) > .bot-job { display: block; position: absolute; z-index: 3; width: max(100%, 160px); max-width: 240px; left: 50%; bottom: 58%; transform: translateX(-50%); margin: 0; padding: .8rem; border: 1px solid #86bcaa; border-radius: 9px; background: #142e39; color: #f4f5ed; box-shadow: 0 10px 30px #0007; font-size: .75rem; line-height: 1.6; visibility: hidden; pointer-events: none; }
 .bot-desk[open] .bot-job, .bot-desk:hover .bot-job, .bot-desk:focus-within .bot-job { visibility: visible; }
 .bot-desk.job-dismissed .bot-job { visibility: hidden; }
-.ticker-heading { margin-top: 1.2rem; color: var(--muted); font-size: .7rem; }
+.ticker-heading { justify-content: flex-end; margin-top: 1.2rem; color: var(--muted); font-size: .7rem; }
 .ticker-toggle { background: var(--soft); border: 1px solid var(--line); border-radius: 6px; min-height: 44px; padding: .4rem .8rem; font-size: .75rem; }
 .office-ticker { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: .5rem; background: var(--bg); }
 .office-ticker:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
