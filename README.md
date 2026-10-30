@@ -65,6 +65,6 @@ Cloudflare serves the nearest `404.html` for unknown URLs: `/es/404.html` for Sp
 
 ## Content sources
 
-Employment, education, certifications, languages and skills follow Matias’s English and Spanish CVs, with the confirmed VFVH award name, project destinations and Yango leadership scope (35+ back-office staff and 1,500+ couriers). Both résumés distinguish the Country Lead and Country Head roles and retain the Milthagor SRL to direct Yango staff transition in December 2025.
+Employment, education, certifications, languages and skills follow Matias’s English and Spanish CVs, with the confirmed VFVH award name, project destinations and Yango leadership scope (35+ back-office staff and 1,500+ couriers). Both résumés distinguish the Country Lead and Country Head roles and list Yango as the employer.
 
 GitHub, LinkedIn and X are linked in the hero, contact section and résumé in each language. Phone and email are intentionally omitted. Gástalo and Cumpafit have live-app and repository links; Monitor Bol has a private repository and Grok Bot fleet has no public destination, so neither card includes a link slot.
