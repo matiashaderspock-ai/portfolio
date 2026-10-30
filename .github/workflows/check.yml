@@ -20,3 +20,5 @@ jobs:
           python-version: '3.13'
       - name: Check HTML, local links, metadata and assets
         run: python3 scripts/check.py
+      - name: Test public X JSON shaping
+        run: python3 -m unittest discover -s scripts -p 'test_x_latest.py' -v

@@ -1,0 +1,40 @@
+{
+  "sample": true,
+  "posts": [
+    {
+      "text": "Sample post: small tools that make everyday work clearer.",
+      "type": "post",
+      "created_date": null,
+      "link": "https://x.com/pandasczos",
+      "thumbnail": null
+    },
+    {
+      "text": "Sample quote: useful systems start with a well-defined routine.",
+      "type": "quote",
+      "created_date": null,
+      "link": "https://x.com/pandasczos",
+      "thumbnail": null
+    },
+    {
+      "text": "Sample repost: an idea about building with AI.",
+      "type": "repost",
+      "created_date": null,
+      "link": "https://x.com/pandasczos",
+      "thumbnail": null
+    },
+    {
+      "text": "Sample post: turning a recurring task into a reusable script.",
+      "type": "post",
+      "created_date": null,
+      "link": "https://x.com/pandasczos",
+      "thumbnail": null
+    },
+    {
+      "text": "Sample post: a little structure, room to do more.",
+      "type": "post",
+      "created_date": null,
+      "link": "https://x.com/pandasczos",
+      "thumbnail": null
+    }
+  ]
+}
