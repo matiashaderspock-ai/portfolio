@@ -12,7 +12,7 @@ python3 -m http.server 8000 --directory public
 python3 scripts/check.py
 ```
 
-The dependency-free check validates HTML nesting, local links and fragments, duplicate IDs, document language, key SEO/Open Graph fields, reciprocal hreflang links, sitemap entries, image alternatives, and a 12 KB total JavaScript budget. It does not fetch external links. The GitHub Actions workflow runs checks on PRs and `main`; it has read-only permissions and does not deploy anything.
+The dependency-free check validates HTML nesting, local links and fragments, duplicate IDs, document language, key SEO/Open Graph fields, reciprocal hreflang links, sitemap entries, image alternatives, and a 12 KB total JavaScript budget. It rejects unfinished placeholder text and empty links. It does not fetch external links. The GitHub Actions workflow runs checks on PRs and `main`; it has read-only permissions and does not deploy anything.
 
 ## Cloudflare Pages settings
 
@@ -63,15 +63,8 @@ Cloudflare serves the nearest `404.html` for unknown URLs: `/es/404.html` for Sp
 - The résumé’s **Print / Save as PDF** button opens the browser print dialog. Use A4, 100% scale, and disable the browser’s own headers/footers for a clean PDF. Print styles use a white background, local system typography, and omit navigation and page controls. The browser’s native Print command also works without JavaScript.
 - Typography uses DM Sans and Libre Caslon Display via Google Fonts, with system fallbacks. Font requests disclose the visitor’s network address to Google; no analytics, cookies or tracking scripts are included. The `_headers` file supplies a restrictive content policy on Cloudflare Pages.
 
-## Details awaiting confirmation
+## Content sources
 
-Visible TODOs are intentional. No employment dates, institutions, award names, profile URLs or project destinations were invented.
+Employment, education, certifications, languages and skills follow Matias’s English and Spanish CVs, with the confirmed VFVH award name, project destinations and Yango leadership scope (35+ back-office staff and 1,500+ couriers). Both résumés distinguish the Country Lead and Country Head roles and retain the Milthagor SRL to direct Yango staff transition in December 2025.
 
-- LinkedIn and X profile URLs (home and résumé pages, both languages).
-- Grok Bot fleet public project URL.
-- Monitor Bol / `courier-sentiment-bot` public repository URL.
-- Banco Fassil employment dates.
-- BBA institution, dates, and award details.
-- Master’s institution and dates.
-
-Replace the relevant TODO text with a real anchor or confirmed detail in **both** languages. The GitHub profile, Gástalo repository and Cumpafit repository are verified public destinations. The only staff and courier counts included are the supplied scope of Yango leadership: 35+ back-office staff and 1,500+ couriers.
+GitHub, LinkedIn and X are linked in the hero, contact section and résumé in each language. Phone and email are intentionally omitted. Gástalo and Cumpafit have live-app and repository links; Monitor Bol has a private repository and Grok Bot fleet has no public destination, so neither card includes a link slot.

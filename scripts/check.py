@@ -48,7 +48,7 @@ class Page(HTMLParser):
         if tag == 'img' and 'alt' not in attrs:
             self.fail('image missing alt text')
         if tag == 'a' and (not attrs.get('href') or attrs['href'] == '#'):
-            self.fail('empty or placeholder link; use visible TODO text instead')
+            self.fail('empty or placeholder link; supply a real URL or remove the link')
         if tag == 'meta':
             key = attrs.get('name', attrs.get('property'))
             if key:
@@ -76,6 +76,8 @@ class Page(HTMLParser):
             self.fail(f'unexpected closing tag: {tag}')
 
     def handle_data(self, data):
+        if 'TODO' in data:
+            self.fail('unfinished placeholder text')
         if self.stack and self.stack[-1] == 'title':
             self.title += data
 
@@ -98,6 +100,11 @@ def resolve(page, url):
         target = target.with_suffix('.html')  # Cloudflare clean HTML URLs
     return target, unquote(parsed.fragment)
 
+
+for path in sorted(ROOT.rglob('*')):
+    if path.is_file() and (path.suffix in {'.html', '.css', '.js', '.svg', '.xml', '.txt'} or path.name == '_headers'):
+        if 'TODO' in path.read_text(encoding='utf-8'):
+            errors.append(f'{path.relative_to(ROOT)}: unfinished placeholder text')
 
 pages = {path.resolve(): Page(path.resolve()) for path in sorted(ROOT.rglob('*.html'))}
 if not pages:
