@@ -13,14 +13,15 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'public/data/x-latest.json'
 USERNAME = 'pandasczos'
-# Conservative exclusions: never copy financial/account disclosures or credentials.
+# Account disclosures and credentials are excluded from all displayed text.
 SENSITIVE = re.compile(
     r'\b(?:balance|balances|saldo|saldos|equity|net\s*worth|account\s*(?:value|number)|'
     r'buying\s*power|p\s*[&/]\s*l|pnl|profit|profits|loss|losses|ganancia\w*|pérdida\w*|'
     r'api[ _-]?key|secret|password|contraseña|bearer|x-access-token)\b|'
     r'(?:ghp_|github_pat_|sk-)[\w-]+|[\w.+-]+@[\w.-]+\.[a-z]{2,}|'
-    r'(?:[$€£¥]|\b(?:USD|BOB|Bs\.?))\s*[\d,.]+|'
     r'\d[\d\s().+-]{8,}\d|[?&](?:token|key|auth|signature|secret)=', re.I)
+# Currency amounts are excluded only from Matias's own post/quote text.
+SENSITIVE_AMOUNT = re.compile(r'(?:[$€£¥]|\b(?:USD|BOB|Bs\.?))\s*[\d,.]+', re.I)
 
 
 def sample_feed():
@@ -37,8 +38,9 @@ def sample_feed():
         for text, kind in zip(texts, ['post', 'quote', 'repost', 'post', 'post'])]}
 
 
-def safe_text(text):
-    return isinstance(text, str) and bool(text.strip()) and not SENSITIVE.search(text)
+def safe_text(text, *, check_amounts=True):
+    return (isinstance(text, str) and bool(text.strip()) and not SENSITIVE.search(text)
+            and (not check_amounts or not SENSITIVE_AMOUNT.search(text)))
 
 
 def post_text(post):
@@ -80,7 +82,8 @@ def shape_feed(payload):
                 continue
         except (KeyError, TypeError, ValueError):
             continue
-        kind, source, text = 'post', post, post_text(post)
+        own_text = post_text(post)
+        kind, source, text = 'post', post, own_text
         ref = next((r for r in refs if r.get('type') == 'retweeted'), None)
         if ref:
             kind = 'repost'
@@ -95,7 +98,9 @@ def shape_feed(payload):
                     text += '\n\n↳ ' + post_text(quoted)
                     if quoted.get('possibly_sensitive') or quoted.get('withheld'):
                         continue
-        if source.get('possibly_sensitive') or source.get('withheld') or not safe_text(text):
+        if (source.get('possibly_sensitive') or source.get('withheld')
+                or not safe_text(text, check_amounts=False)
+                or (kind != 'repost' and SENSITIVE_AMOUNT.search(own_text))):
             continue
         link_id = str(source.get('id', identity)) if kind == 'repost' else identity
         if not re.fullmatch(r'\d{1,19}', link_id):

@@ -61,6 +61,54 @@ class ShapeTests(unittest.TestCase):
         quote = post(referenced_tweets=[{'type': 'quoted', 'id': '201'}])
         self.assertEqual(feed.shape_feed({'data': [quote], 'includes': {'tweets': [post('201', 'Private balance')]}})['posts'], [])
 
+    def test_quoted_currency_amount_is_kept(self):
+        quote = post('2115721217307017717', 'A useful research update.',
+                     referenced_tweets=[{'type': 'quoted', 'id': '201'}])
+        quoted_text = '$52M from @ARPA_H'
+        result = feed.shape_feed({'data': [quote], 'includes': {'tweets': [post('201', quoted_text)]}})['posts']
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]['type'], 'quote')
+        self.assertEqual(result[0]['text'], quote['text'] + '\n\n↳ ' + quoted_text)
+        self.assertEqual(result[0]['link'], 'https://x.com/pandasczos/status/2115721217307017717')
+
+    def test_own_currency_amount_is_excluded_from_posts_and_quotes(self):
+        for amount in ['$500', '€500', '£500', '¥500', 'USD 500', 'BOB 500', 'Bs. 500']:
+            for refs in [[], [{'type': 'quoted', 'id': '201'}]]:
+                for long_text in [False, True]:
+                    with self.subTest(amount=amount, refs=refs, long_text=long_text):
+                        source = post(text='A purchase of ' + amount, referenced_tweets=refs)
+                        if long_text:
+                            source['note_tweet'] = {'text': source['text']}
+                            source['text'] = 'Truncated preview.'
+                        result = feed.shape_feed({'data': [source], 'includes': {'tweets': [post('201')]}})
+                        self.assertEqual(result['posts'], [])
+
+    def test_reposted_currency_amount_is_kept(self):
+        for text in ['$52M from @ARPA_H', '€500', '£500', '¥500', 'USD 500', 'BOB 500', 'Bs. 500']:
+            for expanded in [False, True]:
+                with self.subTest(text=text, expanded=expanded):
+                    repost = post(text='RT ' + text, referenced_tweets=[{'type': 'retweeted', 'id': '201'}])
+                    payload = {'data': [repost]}
+                    if expanded:
+                        payload['includes'] = {'tweets': [post('201', 'Short', note_tweet={'text': text})]}
+                    result = feed.shape_feed(payload)['posts']
+                    self.assertEqual(len(result), 1)
+                    self.assertEqual(result[0]['type'], 'repost')
+                    self.assertEqual(result[0]['text'], text if expanded else repost['text'])
+
+    def test_other_sensitive_patterns_still_exclude_quotes_and_reposts(self):
+        for text in ['Contact person@example.com', 'api key [redacted]', 'Account balance', 'profit',
+                     'ghp_example', 'github_pat_example', 'sk-example', '+1 (202) 555-0123',
+                     'https://example.com/?key=redacted', 'https://example.com/?token=redacted',
+                     'https://example.com/?auth=redacted', 'https://example.com/?signature=redacted',
+                     'https://example.com/?secret=redacted']:
+            for kind in ['quoted', 'retweeted']:
+                with self.subTest(text=text, kind=kind):
+                    source = post(referenced_tweets=[{'type': kind, 'id': '201'}])
+                    result = feed.shape_feed({'data': [source], 'includes': {'tweets': [
+                        post('201', 'Short', note_tweet={'text': text})]}})
+                    self.assertEqual(result['posts'], [])
+
     def test_only_public_x_thumbnail_urls(self):
         source = post(attachments={'media_keys': ['photo']})
         for value, expected in [('https://pbs.twimg.com/media/example.jpg', True),
