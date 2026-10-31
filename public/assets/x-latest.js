@@ -27,8 +27,8 @@
           img.addEventListener('error', () => img.remove(), {once: true}); card.append(img);
         }
         const link = document.createElement('a'); link.className = 'text-link'; link.href = post.link;
-        link.textContent = es ? 'Ver publicación ↗' : 'View post ↗';
-        link.setAttribute('aria-label', (es ? 'Ver publicación del ' : 'View post dated ') + date.textContent + ' — ' + labels[post.type]);
+        link.textContent = es ? 'Mirá la publicación ↗' : 'View post ↗';
+        link.setAttribute('aria-label', (es ? 'Mirá la publicación del ' : 'View post dated ') + date.textContent + ' — ' + labels[post.type]);
         card.append(link); return card;
       });
       while (cards.length < 5) cards.push(samples[cards.length]);
