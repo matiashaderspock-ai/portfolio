@@ -1,39 +1,39 @@
 {
-  "sample": true,
+  "sample": false,
   "posts": [
     {
-      "text": "Sample post: small tools that make everyday work clearer.",
-      "type": "post",
-      "created_date": null,
-      "link": "https://x.com/pandasczos",
-      "thumbnail": null
-    },
-    {
-      "text": "Sample quote: useful systems start with a well-defined routine.",
-      "type": "quote",
-      "created_date": null,
-      "link": "https://x.com/pandasczos",
-      "thumbnail": null
-    },
-    {
-      "text": "Sample repost: an idea about building with AI.",
+      "text": "We identified a security incident affecting a modified Claude Code VS Code extension accessed through our Cursor IDE extension marketplace, impacting at most 5,000 users. This malicious version of the extension was not developed by Anthropic. It does not impact other extensions downloaded from the https://t.co/sJRGX5jLXW, Grok Bot, Grok or our other SpaceXSI products.\n\nIn response, we took down our extension marketplace this afternoon, worked with relevant providers to neutralize the malware, and have reinstated the marketplace after confirming there is no further risk.\n\nIf affected, please review instructions in this blog post to understand how to find the malicious package and establish a path to mitigate any potential impact. We are asking all customers update to Claude Code for VS Code version 2.1.314: https://t.co/ESqf7YEtHZ",
       "type": "repost",
-      "created_date": null,
-      "link": "https://x.com/pandasczos",
+      "created_date": "2026-10-30",
+      "link": "https://x.com/i/status/2116074289053175808",
       "thumbnail": null
     },
     {
-      "text": "Sample post: turning a recurring task into a reusable script.",
-      "type": "post",
-      "created_date": null,
-      "link": "https://x.com/pandasczos",
+      "text": "😭😭 God, hacks EVERYWHERE https://t.co/ekIySPX4Wv\n\n↳ We identified a security incident affecting a modified Claude Code VS Code extension accessed through our Cursor IDE extension marketplace, impacting at most 5,000 users. This malicious version of the extension was not developed by Anthropic. It does not impact other extensions downloaded from the https://t.co/sJRGX5jLXW, Grok Bot, Grok or our other SpaceXSI products.\n\nIn response, we took down our extension marketplace this afternoon, worked with relevant providers to neutralize the malware, and have reinstated the marketplace after confirming there is no further risk.\n\nIf affected, please review instructions in this blog post to understand how to find the malicious package and establish a path to mitigate any potential impact. We are asking all customers update to Claude Code for VS Code version 2.1.314: https://t.co/ESqf7YEtHZ",
+      "type": "quote",
+      "created_date": "2026-10-30",
+      "link": "https://x.com/pandasczos/status/2116087099057393780",
       "thumbnail": null
     },
     {
-      "text": "Sample post: a little structure, room to do more.",
+      "text": "This is the best way to visualize how Grok Bot helps you every day. When you sleep, your bots keep working. When you wake up, it's all done. @bot https://t.co/UNqoeit3XA",
       "type": "post",
-      "created_date": null,
-      "link": "https://x.com/pandasczos",
+      "created_date": "2026-10-30",
+      "link": "https://x.com/pandasczos/status/2116042380348661858",
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2116041702892814336/img/wVLx7t-YfnT88dPI.jpg"
+    },
+    {
+      "text": "small grok bot wish: when a question card is waiting and i send another message, the card grays out and i can't answer it anymore\n\na new message usually means \"wait, other thing first\", not \"no\". could unanswered cards stay active?\n\n@poteto @ericzakariasson @jediahkatz @bot https://t.co/Vh3BP0amvS",
+      "type": "post",
+      "created_date": "2026-10-29",
+      "link": "https://x.com/pandasczos/status/2115669962375250004",
+      "thumbnail": "https://pbs.twimg.com/media/HVxeUOiWEAAb5KT.png"
+    },
+    {
+      "text": "Imagine being born just in time to witness the end of aging, the end of scarcity, the birth of superintelligence, and humanity becoming a spacefaring civilization. \n\nThat's the timeline we're living on.\n\nOf all the generations that have ever lived, we might turn out to be among the luckiest in human history. \n\nWhat an extraordinary time to be alive.",
+      "type": "repost",
+      "created_date": "2026-10-28",
+      "link": "https://x.com/i/status/2115486818116477018",
       "thumbnail": null
     }
   ]
