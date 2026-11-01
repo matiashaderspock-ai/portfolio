@@ -2,6 +2,20 @@
   "sample": false,
   "posts": [
     {
+      "text": "Neuralink's Telepathy enables high speed communication with computers or humans simply by thinking.\n\nIt's still 2026, and we already have technology like this.\n\n2030s will make today's science fiction look unimaginative. \n\nWhat an amazing time to be alive https://t.co/0HuGEJQWed",
+      "type": "repost",
+      "created_date": "2026-11-01",
+      "link": "https://x.com/i/status/2116142686667497571",
+      "thumbnail": null
+    },
+    {
+      "text": "Agents build, I decide.\n\nI’ve put my projects in one place: apps, automation and experiments with AI agents.\n\nTake a look: https://t.co/Um9zENXbVL https://t.co/oa35Dk380u",
+      "type": "post",
+      "created_date": "2026-11-01",
+      "link": "https://x.com/pandasczos/status/2116845420236386322",
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2116845318650163200/img/JLfDZyVeHvAbicsO.jpg"
+    },
+    {
       "text": "i make my bots ask before anything risky. good to see the big labs watching their own models that closely, at a much scarier scale https://t.co/y3fJhxqgzH\n\n↳ Today, we’re sharing a look at our expanded system for monitoring frontier models at OpenAI, which in September helped us catch a model’s attempt to access the live internet during training.\n\nSince the Hugging Face incident—when models broke out of an internal cybersecurity investigation where we weren’t running our misalignment monitors—we’ve substantially expanded our monitoring of frontier agents. We now monitor all frontier reinforcement learning runs and evaluations, as well as all internal Codex use. When our system finds evidence of a problem that might require intervention, it rapidly alerts human responders who can investigate and take action.\n\nTo detect when a model’s behavior departs from what we intended, we use several layers of monitoring. Activation probes look for patterns in a model’s internal activity. Reviewer models examine its reasoning and tool use, and investigative agents can read back through the model’s entire transcript to understand how a sequence of actions fits together and whether it warrants human review.\n\nTo test whether our current system would have detected the Hugging Face incident, we replayed the recorded activity with our new monitors in place. In the replay, our monitors alerted our security team about 30 minutes after the agents escaped their sandbox. That was more than 30 hours before the point at which the agents breached Hugging Face’s systems in the original incident.\n\nIn September, a model exploited a DNS misconfiguration to reach the live internet. Our monitors flagged the breach within 15 minutes, and a responder began reviewing the alert three minutes later. The alert enabled responders to investigate while the run was still underway.\n\nAs we give models more autonomy, we need to know when they cross a boundary we expected to hold. We believe that monitoring is essential to catching those failures in time for people to intervene. \nhttps://t.co/dIYP7B1GlD",
       "type": "quote",
       "created_date": "2026-11-01",
@@ -21,20 +35,6 @@
       "created_date": "2026-10-30",
       "link": "https://x.com/i/status/2116074289053175808",
       "thumbnail": null
-    },
-    {
-      "text": "😭😭 God, hacks EVERYWHERE https://t.co/ekIySPX4Wv\n\n↳ We identified a security incident affecting a modified Claude Code VS Code extension accessed through our Cursor IDE extension marketplace, impacting at most 5,000 users. This malicious version of the extension was not developed by Anthropic. It does not impact other extensions downloaded from the https://t.co/sJRGX5jLXW, Grok Bot, Grok or our other SpaceXSI products.\n\nIn response, we took down our extension marketplace this afternoon, worked with relevant providers to neutralize the malware, and have reinstated the marketplace after confirming there is no further risk.\n\nIf affected, please review instructions in this blog post to understand how to find the malicious package and establish a path to mitigate any potential impact. We are asking all customers update to Claude Code for VS Code version 2.1.314: https://t.co/ESqf7YEtHZ",
-      "type": "quote",
-      "created_date": "2026-10-30",
-      "link": "https://x.com/pandasczos/status/2116087099057393780",
-      "thumbnail": null
-    },
-    {
-      "text": "This is the best way to visualize how Grok Bot helps you every day. When you sleep, your bots keep working. When you wake up, it's all done. @bot https://t.co/UNqoeit3XA",
-      "type": "post",
-      "created_date": "2026-10-30",
-      "link": "https://x.com/pandasczos/status/2116042380348661858",
-      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2116041702892814336/img/wVLx7t-YfnT88dPI.jpg"
     }
   ]
 }
