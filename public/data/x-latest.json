@@ -2,6 +2,20 @@
   "sample": false,
   "posts": [
     {
+      "text": "i make my bots ask before anything risky. good to see the big labs watching their own models that closely, at a much scarier scale https://t.co/y3fJhxqgzH\n\n↳ Today, we’re sharing a look at our expanded system for monitoring frontier models at OpenAI, which in September helped us catch a model’s attempt to access the live internet during training.\n\nSince the Hugging Face incident—when models broke out of an internal cybersecurity investigation where we weren’t running our misalignment monitors—we’ve substantially expanded our monitoring of frontier agents. We now monitor all frontier reinforcement learning runs and evaluations, as well as all internal Codex use. When our system finds evidence of a problem that might require intervention, it rapidly alerts human responders who can investigate and take action.\n\nTo detect when a model’s behavior departs from what we intended, we use several layers of monitoring. Activation probes look for patterns in a model’s internal activity. Reviewer models examine its reasoning and tool use, and investigative agents can read back through the model’s entire transcript to understand how a sequence of actions fits together and whether it warrants human review.\n\nTo test whether our current system would have detected the Hugging Face incident, we replayed the recorded activity with our new monitors in place. In the replay, our monitors alerted our security team about 30 minutes after the agents escaped their sandbox. That was more than 30 hours before the point at which the agents breached Hugging Face’s systems in the original incident.\n\nIn September, a model exploited a DNS misconfiguration to reach the live internet. Our monitors flagged the breach within 15 minutes, and a responder began reviewing the alert three minutes later. The alert enabled responders to investigate while the run was still underway.\n\nAs we give models more autonomy, we need to know when they cross a boundary we expected to hold. We believe that monitoring is essential to catching those failures in time for people to intervene. \nhttps://t.co/dIYP7B1GlD",
+      "type": "quote",
+      "created_date": "2026-11-01",
+      "link": "https://x.com/pandasczos/status/2116762881316340017",
+      "thumbnail": null
+    },
+    {
+      "text": "my expense app finally has a door strangers can walk through\n\nasked codex for a demo mode: its own fake database, sync switched off, a reset button, and a banner saying it's all sample data. my real numbers never get touched\n\ntook two small rounds, one to build it and one to switch the sample data to english\n\nnow when someone asks \"can i try it\" i just send a link. kinda nice not having to screen-share my own budget",
+      "type": "post",
+      "created_date": "2026-11-01",
+      "link": "https://x.com/pandasczos/status/2116762775678570826",
+      "thumbnail": "https://pbs.twimg.com/media/HWBAgc2XEAA8O9f.png"
+    },
+    {
       "text": "We identified a security incident affecting a modified Claude Code VS Code extension accessed through our Cursor IDE extension marketplace, impacting at most 5,000 users. This malicious version of the extension was not developed by Anthropic. It does not impact other extensions downloaded from the https://t.co/sJRGX5jLXW, Grok Bot, Grok or our other SpaceXSI products.\n\nIn response, we took down our extension marketplace this afternoon, worked with relevant providers to neutralize the malware, and have reinstated the marketplace after confirming there is no further risk.\n\nIf affected, please review instructions in this blog post to understand how to find the malicious package and establish a path to mitigate any potential impact. We are asking all customers update to Claude Code for VS Code version 2.1.314: https://t.co/ESqf7YEtHZ",
       "type": "repost",
       "created_date": "2026-10-30",
@@ -21,20 +35,6 @@
       "created_date": "2026-10-30",
       "link": "https://x.com/pandasczos/status/2116042380348661858",
       "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2116041702892814336/img/wVLx7t-YfnT88dPI.jpg"
-    },
-    {
-      "text": "This is what excites the most about AI, impactful news for humankind that your grandma can understand and appreciate, not technicalities such as ‘Terra 6.1, Opus 5.5’ that only we understand https://t.co/s9d7Abry05\n\n↳ This is why AI in medicine is going to change everything.\n\nMany of the worst diseases we fight today, from Parkinson’s to Alzheimer’s to cancer, all share one root cause. Proteins in our bodies folding the wrong way. Johns Hopkins just secured up to $52M from @ARPA_H to lead a team of 7 institutions building an AI that can predict exactly how those proteins misfold.\n\nOnce we can see the shape, we can design drugs that target only the bad versions and leave the healthy ones alone. In the first phase, they’re analyzing 1 billion protein structures and testing 100 million drug candidates.\n\nThis is American medicine leaping into the future.",
-      "type": "quote",
-      "created_date": "2026-10-29",
-      "link": "https://x.com/pandasczos/status/2115721217307017717",
-      "thumbnail": null
-    },
-    {
-      "text": "This is why AI in medicine is going to change everything.\n\nMany of the worst diseases we fight today, from Parkinson’s to Alzheimer’s to cancer, all share one root cause. Proteins in our bodies folding the wrong way. Johns Hopkins just secured up to $52M from @ARPA_H to lead a team of 7 institutions building an AI that can predict exactly how those proteins misfold.\n\nOnce we can see the shape, we can design drugs that target only the bad versions and leave the healthy ones alone. In the first phase, they’re analyzing 1 billion protein structures and testing 100 million drug candidates.\n\nThis is American medicine leaping into the future.",
-      "type": "repost",
-      "created_date": "2026-10-29",
-      "link": "https://x.com/i/status/2115619650318856622",
-      "thumbnail": null
     }
   ]
 }
