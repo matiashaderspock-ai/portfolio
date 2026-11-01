@@ -44,7 +44,6 @@
 .ticker-group > li { flex: 0 0 auto; padding-inline: 1rem; border-inline-end: 1px solid var(--line); }
 .ticker-up { color: var(--accent); font-weight: 600; }.ticker-down { color: var(--ticker-negative, #a13a32); font-weight: 600; }.ticker-activity { color: var(--ink); }
 .office-ticker:focus-visible .ticker-track, .office-glass.ticker-paused .ticker-track { animation-play-state: paused !important; }
-@media (hover: hover) and (pointer: fine) { .office-ticker:hover .ticker-track { animation-play-state: paused !important; } }
 :root:not([data-theme='light']) .office-glass { --ticker-negative: #ff9e92; }
 @keyframes office-bob { 50% { translate: 0 -6px; } }
 @keyframes ticker-scroll { to { transform: translateX(-50%); } }
