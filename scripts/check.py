@@ -2,9 +2,10 @@
 """Dependency-free HTML, internal-link, metadata and asset checks. No build step."""
 from html.parser import HTMLParser
 from pathlib import Path
+import hashlib
 import re
 import sys
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1] / 'public'
@@ -134,6 +135,10 @@ for path, page in pages.items():
             page.fail(f'missing local target: {url}')
         elif fragment and target in pages and fragment not in pages[target].ids:
             page.fail(f'missing fragment in {url}')
+        if target.is_file() and target in {ROOT / 'assets/projects.js', ROOT / 'assets/projects.css'}:
+            version = hashlib.sha256(target.read_bytes()).hexdigest()[:12]
+            if parse_qs(urlsplit(url).query).get('v') != [version]:
+                page.fail(f'stale project asset version: {url} (expected v={version})')
     if path.name == '404.html' and page.meta.get('robots') != 'noindex, follow':
         page.fail('404 page must be noindex')
 
