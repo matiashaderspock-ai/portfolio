@@ -1,120 +1,147 @@
-// Progressive fan cards: native dialog playback, image fallback, keyboard, wheel and touch.
+// Progressive project fan, native film dialog and horizontal pointer gestures.
 (() => {
-    const e = document.querySelector("#work .projects-grid");
-    if (!e) return;
-    const t = "es" === document.documentElement.lang, n = [ ...e.children ], a = document.createElement("div");
-    a.className = "project-browser";
-    const r = document.createElement("div");
-    r.className = "project-stage", r.setAttribute("role", "group"), r.setAttribute("aria-label", t ? "Seleccionar proyecto" : "Select a project");
-    const o = document.createElement("div");
-    o.className = "project-controls";
-    const s = document.createElement("p");
-    s.className = "project-hint", s.textContent = t ? "Elige una tarjeta y desplázate · ← → · desliza" : "Select a card, then scroll · ← → · swipe";
-    const c = document.createElement("span");
-    c.setAttribute("role", "status");
-    const l = document.createElement("button"), i = document.createElement("button");
-    l.textContent = "←", i.textContent = "→", l.setAttribute("aria-label", t ? "Proyecto anterior" : "Previous project"),
-    i.setAttribute("aria-label", t ? "Proyecto siguiente" : "Next project"), o.append(l, c, i),
-    e.before(a), a.append(r, e, s, o);
-    const tLang = t, dialog = document.querySelector(".project-film"), video = dialog.querySelector("video");
-    let opener;
-    function play(button) {
-        opener = button;
-        video.src = n.find(e => e.dataset.cardVideo).dataset.cardVideo;
-        dialog.showModal();
-        video.play().catch(() => {});
+  const grid = document.querySelector('#work .projects-grid');
+  if (!grid) return;
+  const es = document.documentElement.lang === 'es';
+  const cards = [...grid.children], browser = document.createElement('div');
+  browser.className = 'project-browser';
+  const stage = document.createElement('div');
+  stage.className = 'project-stage'; stage.setAttribute('role', 'group');
+  stage.setAttribute('aria-label', es ? 'Seleccionar proyecto' : 'Select a project');
+  const controls = document.createElement('div'); controls.className = 'project-controls';
+  const hint = document.createElement('p'); hint.className = 'project-hint';
+  hint.textContent = es ? 'Elige una tarjeta y desplázate · ← → · desliza' : 'Select a card, then scroll · ← → · swipe';
+  const status = document.createElement('span'); status.setAttribute('role', 'status');
+  const previous = document.createElement('button'), next = document.createElement('button');
+  previous.textContent = '←'; next.textContent = '→';
+  previous.setAttribute('aria-label', es ? 'Proyecto anterior' : 'Previous project');
+  next.setAttribute('aria-label', es ? 'Proyecto siguiente' : 'Next project');
+  controls.append(previous, status, next); grid.before(browser); browser.append(stage, grid, hint, controls);
+  const dialog = document.querySelector('.project-film'), video = dialog.querySelector('video');
+  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  let opener, selected = 0, blockedClick = false, gesture;
+  const clamp = index => Math.max(0, Math.min(cards.length - 1, index));
+  function play(button) {
+    opener = button; video.src = cards.find(card => card.dataset.cardVideo).dataset.cardVideo;
+    dialog.showModal(); video.play().catch(() => {});
+  }
+  dialog.querySelector('button').onclick = () => dialog.close();
+  dialog.addEventListener('click', event => {
+    const box = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    video.pause(); video.removeAttribute('src'); video.load(); opener?.focus({preventScroll: true});
+  });
+  document.querySelector('[data-play-film]').addEventListener('click', event => {
+    event.preventDefault(); play(event.currentTarget);
+  });
+  const tiles = cards.map((card, index) => {
+    const tile = document.createElement('button'); tile.className = 'project-tile'; tile.type = 'button';
+    tile.setAttribute('aria-controls', card.id);
+    const art = document.createElement('span'); art.className = 'project-art art-' + index; art.setAttribute('aria-hidden', 'true');
+    art.append(card.querySelector('svg').cloneNode(true));
+    if (card.dataset.cardImage) {
+      const image = new Image(); image.alt = ''; image.draggable = false; image.src = card.dataset.cardImage;
+      art.classList.add('image-art'); image.onerror = () => {image.remove(); art.classList.remove('image-art');}; art.append(image);
     }
-    dialog.querySelector("button").onclick = () => dialog.close();
-    dialog.addEventListener("click", e => {
-        const b = dialog.getBoundingClientRect();
-        if (e.target === dialog && (e.clientX < b.left || e.clientX > b.right || e.clientY < b.top || e.clientY > b.bottom)) dialog.close();
+    const title = document.createElement('span'); title.className = 'tile-title'; title.textContent = card.querySelector('h3').textContent;
+    const category = document.createElement('span'); category.className = 'tile-category'; category.textContent = card.querySelector('.project-category').textContent;
+    const number = document.createElement('span'); number.className = 'tile-number'; number.textContent = String(index + 1).padStart(2, '0');
+    tile.append(art, title, category, number);
+    tile.addEventListener('click', event => {
+      if (blockedClick && event.detail) {blockedClick = false; return;}
+      blockedClick = false;
+      if (index === selected && card.dataset.cardVideo && (event.target.closest('.project-art') || !event.detail)) play(tile);
+      else select(index);
     });
-    dialog.addEventListener("close", () => {
-        video.pause();
-        video.removeAttribute("src");
-        video.load();
-        opener?.focus({
-            preventScroll: true
-        });
+    stage.append(tile); card.classList.remove('reveal', 'reveal-ready'); return tile;
+  });
+  function draw(progress = 0, dx = 0) {
+    tiles.forEach((tile, index) => {
+      const relative = index - selected, offset = relative - progress;
+      tile.style.setProperty('--x', (relative === 0 ? dx : 94 * offset) + 'px');
+      tile.style.setProperty('--y', (offset < 0 ? 12 : 30) * offset + 'px');
+      tile.style.setProperty('--r', 9 * offset + 'deg');
+      tile.style.setProperty('--s', String(1 - .055 * Math.min(Math.abs(offset), 5)));
+      tile.style.zIndex = progress && relative === 0 ? 20 : 10 - Math.abs(relative);
     });
-    document.querySelector("[data-play-film]").addEventListener("click", e => {
-        e.preventDefault();
-        play(e.currentTarget);
+  }
+  function resetGesture() {
+    if (!gesture) return;
+    const id = gesture.id; gesture = null; stage.classList.remove('is-dragging');
+    if (stage.hasPointerCapture(id)) stage.releasePointerCapture(id);
+  }
+  function cancelDrag() {if (gesture) {blockedClick = true; resetGesture(); draw();}}
+  function select(index, focus = false) {
+    resetGesture(); selected = clamp(index);
+    cards.forEach((card, index) => {card.hidden = index !== selected;});
+    tiles.forEach((tile, index) => {
+      tile.classList.toggle('is-selected', index === selected); tile.setAttribute('aria-pressed', String(index === selected));
+      if (cards[index].dataset.cardVideo) {
+        tile.setAttribute('aria-label', tile.querySelector('.tile-title').textContent + (index === selected ? ' · ' + (es ? 'Reproducir video' : 'Play film') : ''));
+        tile.setAttribute('aria-haspopup', 'dialog');
+      }
+      tile.tabIndex = index === selected ? 0 : -1;
     });
-    let d = 0, p = !1;
-    const u = n.map((e, t) => {
-        const n = document.createElement("button");
-        n.className = "project-tile", n.type = "button", n.setAttribute("aria-controls", e.id);
-        const a = document.createElement("span");
-        a.className = "project-art art-" + t, a.setAttribute("aria-hidden", "true"), a.append(e.querySelector("svg").cloneNode(!0));
-        if (e.dataset.cardImage) {
-            const i = new Image;
-            i.alt = "", i.src = e.dataset.cardImage, a.classList.add("image-art"), i.onerror = () => {
-                i.remove();
-                a.classList.remove("image-art");
-            }, a.append(i);
-        }
-        const o = document.createElement("span");
-        o.className = "tile-title", o.textContent = e.querySelector("h3").textContent;
-        const s = document.createElement("span");
-        s.className = "tile-category", s.textContent = e.querySelector(".project-category").textContent;
-        const c = document.createElement("span");
-        return c.className = "tile-number", c.textContent = String(t + 1).padStart(2, "0"),
-        n.append(a, o, s, c), n.addEventListener("click", i => {
-            if (p && i.detail) {
-                p = !1;
-                return;
-            }
-            p = !1;
-            if (t === d && e.dataset.cardVideo && (i.target.closest(".project-art") || !i.detail)) play(n); else m(t);
-        }), r.append(n), e.classList.remove("reveal", "reveal-ready"), n;
-    });
-    function m(e, t = !1) {
-        d = Math.max(0, Math.min(n.length - 1, e)), n.forEach((e, t) => {
-            e.hidden = t !== d;
-        }), u.forEach((e, t) => {
-            const n = t - d;
-            e.style.setProperty("--x", 94 * n + "px"), e.style.setProperty("--y", (n < 0 ? 12 * n : 30 * n) + "px"),
-            e.style.setProperty("--r", 9 * n + "deg"), e.style.setProperty("--s", 0 === n ? "1" : String(1 - .055 * Math.min(Math.abs(n), 5))),
-            e.style.zIndex = 10 - Math.abs(n), e.classList.toggle("is-selected", t === d), e.setAttribute("aria-pressed", String(t === d)),
-            document.getElementById(e.getAttribute("aria-controls")).dataset.cardVideo && (e.setAttribute("aria-label", e.querySelector(".tile-title").textContent + (t === d ? " · " + (tLang ? "Reproducir video" : "Play film") : "")),
-            e.setAttribute("aria-haspopup", "dialog")), e.tabIndex = t === d ? 0 : -1;
-        }), c.textContent = `${String(d + 1).padStart(2, "0")} / 06`, l.disabled = 0 === d,
-        i.disabled = d === n.length - 1, t && u[d].focus({
-            preventScroll: !0
-        });
+    draw(); status.textContent = `${String(selected + 1).padStart(2, '0')} / 06`;
+    previous.disabled = selected === 0; next.disabled = selected === cards.length - 1;
+    if (focus) tiles[selected].focus({preventScroll: true});
+  }
+  previous.onclick = () => select(selected - 1); next.onclick = () => select(selected + 1);
+  stage.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {cancelDrag(); return;}
+    const index = {ArrowRight: selected + 1, ArrowLeft: selected - 1, Home: 0, End: cards.length - 1}[event.key];
+    if (index !== undefined) {event.preventDefault(); select(index, true);}
+  });
+  let wheel = 0, lastWheel = 0;
+  stage.addEventListener('wheel', event => {
+    if (event.ctrlKey) return;
+    const horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY);
+    if (!horizontal && !stage.contains(document.activeElement)) return;
+    const delta = (horizontal ? event.deltaX : event.deltaY) * (event.deltaMode === 1 ? 16 : 1);
+    if (selected === 0 && delta < 0 || selected === cards.length - 1 && delta > 0) return;
+    event.preventDefault(); if (Math.sign(wheel) !== Math.sign(delta)) wheel = 0;
+    wheel += delta;
+    if (Math.abs(wheel) > 45 && performance.now() - lastWheel > 180) {select(selected + Math.sign(wheel)); wheel = 0; lastWheel = performance.now();}
+  }, {passive: false});
+  stage.addEventListener('dragstart', event => event.preventDefault());
+  stage.addEventListener('pointerdown', event => {
+    if (event.isPrimary === false || event.button !== 0) {cancelDrag(); return;}
+    cancelDrag(); blockedClick = false;
+    gesture = {id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, horizontal: false};
+  });
+  function move(event) {
+    if (!gesture || gesture.id !== event.pointerId) return;
+    const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+    gesture.dx = dx;
+    if (!gesture.horizontal) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return;
+      blockedClick = true;
+      if (Math.abs(dy) >= Math.abs(dx)) {resetGesture(); return;}
+      stage.getAnimations({subtree: true}).forEach(animation => animation.finish());
+      gesture.horizontal = true; stage.classList.add('is-dragging'); stage.setPointerCapture(event.pointerId);
     }
-    l.onclick = () => m(d - 1), i.onclick = () => m(d + 1), r.addEventListener("keydown", e => {
-        const t = {
-            ArrowRight: d + 1,
-            ArrowLeft: d - 1,
-            Home: 0,
-            End: n.length - 1
-        }[e.key];
-        void 0 !== t && (e.preventDefault(), m(t, !0));
-    });
-    let h, b = 0, y = 0;
-    function g() {
-        const e = n.findIndex(e => "#" + e.id === location.hash);
-        e >= 0 && m(e);
-    }
-    r.addEventListener("wheel", e => {
-        if (e.ctrlKey) return;
-        const t = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        if (!t && !r.contains(document.activeElement)) return;
-        const n = (t ? e.deltaX : e.deltaY) * (1 === e.deltaMode ? 16 : 1);
-        0 === d && n < 0 || 5 === d && n > 0 || (e.preventDefault(), Math.sign(b) !== Math.sign(n) && (b = 0),
-        b += n, Math.abs(b) > 45 && performance.now() - y > 180 && (m(d + Math.sign(b)),
-        b = 0, y = performance.now()));
-    }, {
-        passive: !1
-    }), r.addEventListener("pointerdown", e => {
-        p = !1, h = [ e.clientX, e.clientY ];
-    }), r.addEventListener("pointerup", e => {
-        if (!h) return;
-        const t = e.clientX - h[0], n = e.clientY - h[1];
-        h = null, Math.abs(t) > 45 && Math.abs(t) > Math.abs(n) && (p = !0, m(d - Math.sign(t)));
-    }), r.addEventListener("pointercancel", () => {
-        h = null;
-    }), a.classList.add("is-ready"), m(0), g(), window.addEventListener("hashchange", g);
+    if (event.cancelable) event.preventDefault();
+    const atEdge = clamp(selected - Math.sign(dx)) === selected;
+    draw(atEdge ? 0 : Math.max(-1, Math.min(1, -dx / 180)), atEdge ? dx * .2 : dx);
+  }
+  stage.addEventListener('pointermove', move);
+  stage.addEventListener('pointerup', event => {
+    move(event); if (!gesture || gesture.id !== event.pointerId) return;
+    const dx = gesture.dx, old = tiles[selected], from = getComputedStyle(old).transform;
+    const target = clamp(selected - (gesture.horizontal && Math.abs(dx) > 45 ? Math.sign(dx) : 0));
+    const changed = target !== selected, focus = stage.contains(document.activeElement);
+    select(target, focus);
+    if (changed && !motion.matches) old.animate([
+      {transform: from, opacity: 1, zIndex: 20},
+      {transform: `translate(${Math.sign(dx) * Math.max(320, stage.clientWidth)}px, -24px) rotate(${Math.sign(dx) * 22}deg) scale(.9)`, opacity: 0, zIndex: 20}
+    ], {duration: 300, easing: 'ease-out'});
+  });
+  stage.addEventListener('pointercancel', cancelDrag);
+  stage.addEventListener('lostpointercapture', event => {if (event.target === stage && !stage.hasPointerCapture(event.pointerId)) cancelDrag();});
+  window.addEventListener('blur', cancelDrag);
+  motion.addEventListener('change', () => {cancelDrag(); stage.getAnimations({subtree: true}).forEach(animation => animation.finish());});
+  function fromHash() {const index = cards.findIndex(card => '#' + card.id === location.hash); if (index >= 0) select(index);}
+  browser.classList.add('is-ready'); select(0); fromHash(); window.addEventListener('hashchange', fromHash);
 })();
