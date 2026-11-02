@@ -86,7 +86,7 @@ with sync_playwright() as p:
  for lang in ['en','es']:
   c=context(java_script_enabled=False,viewport={'width':320,'height':900}); page=c.new_page(); page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#work')
   assert page.locator('#work article:visible').count()==6
-  assert page.locator('.project-shot:visible').count()==3
+  assert page.locator('.project-shot').count()==0
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   results.append({'language':lang,'noJavaScript':'PASS'}); c.close()
  c=context(reduced_motion='reduce'); page=c.new_page(); page.goto(BASE+'/#work'); assert page.locator('.project-tile').first.evaluate('(e)=>getComputedStyle(e).transitionDuration')=='0s'; results.append({'reducedMotion':'PASS'}); c.close()
