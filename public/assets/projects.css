@@ -19,6 +19,12 @@
 .project-tile[aria-haspopup="dialog"].is-selected .image-art::after { display: block; content: ''; width: 0; height: 0; border: 10px solid transparent; border-left: 16px solid white; border-radius: 0; transform: none; opacity: 1; right: 4px; bottom: 10px; filter: drop-shadow(0 1px 3px #000); }
 .project-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: .5rem; }
 .project-actions .button { min-width: 0; justify-content: center; min-height: 44px; padding: .65rem .2rem; font-size: clamp(.7rem, 3.2vw, .78rem); line-height: 1.35; text-align: center; border-color: var(--line); background: var(--accent-soft); color: var(--ink); }
+.project-actions-single { grid-template-columns: minmax(0, 1fr); }
+.project-install { margin-top: .5rem; font-size: .8rem; line-height: 1.6; color: var(--muted); }
+.project-install summary { min-height: 44px; padding: .65rem 0; cursor: pointer; color: var(--ink); }
+.project-install p { margin: .5rem 0; }
+.project-install ul { padding-left: 1.2rem; margin: .5rem 0; }
+.project-install li + li { margin-top: .5rem; }
 .project-film { width: min(960px, calc(100% - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); overflow: auto; }
 .project-film::backdrop { background: #000b; }
 .film-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
