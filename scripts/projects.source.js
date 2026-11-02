@@ -33,9 +33,6 @@
   dialog.addEventListener('close', () => {
     video.pause(); video.removeAttribute('src'); video.load(); opener?.focus({preventScroll: true});
   });
-  document.querySelector('[data-play-film]').addEventListener('click', event => {
-    event.preventDefault(); play(event.currentTarget);
-  });
   const tiles = cards.map((card, index) => {
     const tile = document.createElement('button'); tile.className = 'project-tile'; tile.type = 'button';
     tile.setAttribute('aria-controls', card.id);
