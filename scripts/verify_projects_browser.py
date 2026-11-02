@@ -39,7 +39,7 @@ with sync_playwright() as p:
     page.keyboard.press('Home')
     # Actual mouse wheel and pointer swipe selection.
     stage=page.locator('.project-stage'); stage.hover(); page.mouse.wheel(0,100); page.wait_for_timeout(250); assert page.locator('#gastalo').is_visible()
-    stage.dispatch_event('pointerdown',{'clientX':220,'clientY':100}); stage.dispatch_event('pointerup',{'clientX':110,'clientY':105}); assert page.locator('#cumpafit').is_visible(); assert not page.locator('dialog').is_visible()
+    box=stage.bounding_box(); sx=box['x']+box['width']*.6; sy=box['y']+150; page.mouse.move(sx,sy); page.mouse.down(); page.mouse.move(sx-110,sy,steps=6); page.mouse.up(); assert page.locator('#cumpafit').is_visible(); assert not page.locator('dialog').is_visible()
     page.keyboard.press('Home')
     for i,id in enumerate(order[:3]):
      if i: page.keyboard.press('ArrowRight')
