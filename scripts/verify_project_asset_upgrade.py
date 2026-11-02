@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify project interactions survive a browser with assets cached from PR30.
+"""Verify project interactions survive a browser with assets cached from an earlier release.
 
 Requires Playwright, Chromium and repository history for the baseline commit.
 Uses exact project DOM/assets on a loopback fixture, with a deliberate long
@@ -54,10 +54,10 @@ try:
             context=browser.new_context(viewport={'width':390,'height':900},has_touch=True,is_mobile=True,reduced_motion='no-preference')
             page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
             page.goto(base);page.wait_for_selector('.project-browser.is-ready');initial=page.locator('.project-tile').count()
-            old_ref=page.locator('script[src*="projects.js"]').get_attribute('src');state['phase']=1
-            page.goto(base);page.wait_for_timeout(100);new_ref=page.locator('script[src*="projects.js"]').get_attribute('src')
+            old_ref=page.locator('script[src*="projects.js"]').get_attribute('src');old_css=page.locator('link[href*="projects.css"]').get_attribute('href');state['phase']=1
+            page.goto(base);page.wait_for_timeout(100);new_ref=page.locator('script[src*="projects.js"]').get_attribute('src');new_css=page.locator('link[href*="projects.css"]').get_attribute('href')
             ready=bool(page.locator('.project-browser.is-ready').count());tiles=page.locator('.project-tile').count()
-            row={'candidate':args.candidate_ref or 'working tree','language':language,'initialCards':initial,'upgradedReady':ready,'upgradedCards':tiles,'errors':errors,'oldScriptRef':old_ref,'newScriptRef':new_ref,'newScriptRequested':any(r['phase']==1 and r['path']==new_ref for r in state['requests']),'requests':list(state['requests'])}
+            row={'candidate':args.candidate_ref or 'working tree','language':language,'initialCards':initial,'upgradedReady':ready,'upgradedCards':tiles,'errors':errors,'oldScriptRef':old_ref,'newScriptRef':new_ref,'newScriptRequested':any(r['phase']==1 and r['path']==new_ref for r in state['requests']),'oldStylesRef':old_css,'newStylesRef':new_css,'newStylesRequested':any(r['phase']==1 and r['path']==new_css for r in state['requests']),'requests':list(state['requests'])}
             if ready and tiles==6 and not errors:
                 page.locator('.project-controls button').last.click();assert page.locator('#gastalo').is_visible()
                 page.wait_for_timeout(70);x=page.locator('.project-tile').nth(1).evaluate('(e)=>new DOMMatrixReadOnly(getComputedStyle(e).transform).m41')
@@ -77,4 +77,6 @@ finally:
     server.shutdown();server.server_close()
 (args.output/'upgrade-results.json').write_text(json.dumps(results,indent=2));print(json.dumps(results,indent=2))
 assert all(r['initialCards']==6 and r['upgradedReady'] and r['upgradedCards']==6 and not r['errors'] for r in results),'REGRESSION: project interactions disappear after a cached asset upgrade'
-assert all(r['newScriptRequested'] and r.get('keyboardButtonsAndTouch')=='PASS' for r in results)
+# Identical content hashes should reuse the cached asset. Changed references
+# must fetch new bytes; this also covers CSS-only releases with unchanged JS.
+assert all((r['oldScriptRef']==r['newScriptRef'] or r['newScriptRequested']) and (r['oldStylesRef']==r['newStylesRef'] or r['newStylesRequested']) and r.get('keyboardButtonsAndTouch')=='PASS' for r in results)
