@@ -9,6 +9,24 @@
 .project-art::before, .project-art::after { content: ''; position: absolute; border: 1px solid currentColor; width: 155px; height: 155px; border-radius: 50%; opacity: .18; transform: translate(45px, 50px); }
 .project-art::after { transform: translate(-65px, -60px); width: 200px; height: 200px; }
 .project-art svg { width: 88px; height: 88px; stroke-width: 1; z-index: 1; }
+.project-art.image-art::before, .project-art.image-art::after, .image-art svg { display: none; }
+.project-art img { width: 100%; height: 100%; object-fit: contain; background: #f6f5ef; }
+.project-card { min-width: 0; overflow-wrap: anywhere; }
+.project-tile[aria-haspopup="dialog"].is-selected .project-art { cursor: pointer; }
+.project-tile[aria-haspopup="dialog"] .project-art img { background: #111f2b; }
+.project-tile[aria-haspopup="dialog"].is-selected .image-art::after { display: block; content: ''; width: 0; height: 0; border: 10px solid transparent; border-left: 16px solid white; border-radius: 0; transform: none; opacity: 1; right: 4px; bottom: 10px; filter: drop-shadow(0 1px 3px #000); }
+.project-shot { display: block; margin-bottom: 1rem; font-size: .73rem; color: var(--muted); }
+.project-shot img { display: block; width: 100%; height: 160px; object-fit: contain; border-radius: 8px; background: #f6f5ef; margin-bottom: .5rem; }
+.project-usage { border-top: 1px solid var(--line); margin-top: 1.3rem; padding-top: 1rem; }
+.project-usage h4 { font-size: 1rem; }
+.project-usage p { margin: .6rem 0; color: var(--muted); font-size: .85rem; }
+.project-film { width: min(960px, calc(100% - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); overflow: auto; }
+.project-film::backdrop { background: #000b; }
+.film-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.film-heading h2 { font-size: 1.3rem; }
+.film-heading button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 8px; }
+.project-film video { display: block; width: 100%; max-height: 75dvh; background: #000; }
+body:has(.project-film[open]) { overflow: hidden; }
 .art-1 { background: #bdd0e0; color: #294958; }.art-2 { background: #d7c8a7; color: #57482d; }.art-3 { background: #b5c9a8; color: #354f30; }.art-4 { background: #d7b8a5; color: #6a4234; }.art-5 { background: #c6bdd8; color: #4c3e65; }
 .tile-title { display: block; margin: 14px 24px 4px 4px; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
 .tile-category { display: block; margin-left: 4px; font-size: .65rem; color: var(--muted); }
