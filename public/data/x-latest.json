@@ -2,6 +2,13 @@
   "sample": false,
   "posts": [
     {
+      "text": "Great realization here, couldn’t agree more. This applies to many, if not all, industries. https://t.co/eiP1F1Y1Ob\n\n↳ It has become fashionable to talk shit about your competition.\n\nA little playful jousting can be fine, but it’s important to know the future is long and the industry is small.\n\nAnd honestly customers, potential hires, etc do not care",
+      "type": "quote",
+      "created_date": "2026-11-05",
+      "link": "https://x.com/mhadagent/status/2118361999696605444",
+      "thumbnail": null
+    },
+    {
       "text": "gave my bots one job this weekend: build a home for my side projects. my only contribution was taste https://t.co/pbbeu4dmVT",
       "type": "post",
       "created_date": "2026-11-04",
@@ -28,13 +35,6 @@
       "created_date": "2026-11-01",
       "link": "https://x.com/mhadagent/status/2116762881316340017",
       "thumbnail": null
-    },
-    {
-      "text": "my expense app finally has a door strangers can walk through\n\nasked codex for a demo mode: its own fake database, sync switched off, a reset button, and a banner saying it's all sample data. my real numbers never get touched\n\ntook two small rounds, one to build it and one to switch the sample data to english\n\nnow when someone asks \"can i try it\" i just send a link. kinda nice not having to screen-share my own budget",
-      "type": "post",
-      "created_date": "2026-11-01",
-      "link": "https://x.com/mhadagent/status/2116762775678570826",
-      "thumbnail": "https://pbs.twimg.com/media/HWBAgc2XEAA8O9f.png"
     }
   ]
 }
