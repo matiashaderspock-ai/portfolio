@@ -5,7 +5,7 @@
       "text": "gave my bots one job this weekend: build a home for my side projects. my only contribution was taste https://t.co/pbbeu4dmVT",
       "type": "post",
       "created_date": "2026-11-04",
-      "link": "https://x.com/pandasczos/status/2117871537453928894",
+      "link": "https://x.com/mhadagent/status/2117871537453928894",
       "thumbnail": "https://pbs.twimg.com/media/HWQw6kUbAAAAeFb.jpg"
     },
     {
@@ -19,21 +19,21 @@
       "text": "Agents build, I decide.\n\nI’ve put my projects in one place: apps, automation and experiments with AI agents.\n\nTake a look: https://t.co/Um9zENXbVL https://t.co/oa35Dk380u",
       "type": "post",
       "created_date": "2026-11-01",
-      "link": "https://x.com/pandasczos/status/2116845420236386322",
+      "link": "https://x.com/mhadagent/status/2116845420236386322",
       "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2116845318650163200/img/JLfDZyVeHvAbicsO.jpg"
     },
     {
       "text": "i make my bots ask before anything risky. good to see the big labs watching their own models that closely, at a much scarier scale https://t.co/y3fJhxqgzH\n\n↳ Today, we’re sharing a look at our expanded system for monitoring frontier models at OpenAI, which in September helped us catch a model’s attempt to access the live internet during training.\n\nSince the Hugging Face incident—when models broke out of an internal cybersecurity investigation where we weren’t running our misalignment monitors—we’ve substantially expanded our monitoring of frontier agents. We now monitor all frontier reinforcement learning runs and evaluations, as well as all internal Codex use. When our system finds evidence of a problem that might require intervention, it rapidly alerts human responders who can investigate and take action.\n\nTo detect when a model’s behavior departs from what we intended, we use several layers of monitoring. Activation probes look for patterns in a model’s internal activity. Reviewer models examine its reasoning and tool use, and investigative agents can read back through the model’s entire transcript to understand how a sequence of actions fits together and whether it warrants human review.\n\nTo test whether our current system would have detected the Hugging Face incident, we replayed the recorded activity with our new monitors in place. In the replay, our monitors alerted our security team about 30 minutes after the agents escaped their sandbox. That was more than 30 hours before the point at which the agents breached Hugging Face’s systems in the original incident.\n\nIn September, a model exploited a DNS misconfiguration to reach the live internet. Our monitors flagged the breach within 15 minutes, and a responder began reviewing the alert three minutes later. The alert enabled responders to investigate while the run was still underway.\n\nAs we give models more autonomy, we need to know when they cross a boundary we expected to hold. We believe that monitoring is essential to catching those failures in time for people to intervene. \nhttps://t.co/dIYP7B1GlD",
       "type": "quote",
       "created_date": "2026-11-01",
-      "link": "https://x.com/pandasczos/status/2116762881316340017",
+      "link": "https://x.com/mhadagent/status/2116762881316340017",
       "thumbnail": null
     },
     {
       "text": "my expense app finally has a door strangers can walk through\n\nasked codex for a demo mode: its own fake database, sync switched off, a reset button, and a banner saying it's all sample data. my real numbers never get touched\n\ntook two small rounds, one to build it and one to switch the sample data to english\n\nnow when someone asks \"can i try it\" i just send a link. kinda nice not having to screen-share my own budget",
       "type": "post",
       "created_date": "2026-11-01",
-      "link": "https://x.com/pandasczos/status/2116762775678570826",
+      "link": "https://x.com/mhadagent/status/2116762775678570826",
       "thumbnail": "https://pbs.twimg.com/media/HWBAgc2XEAA8O9f.png"
     }
   ]

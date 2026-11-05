@@ -12,7 +12,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'public/data/x-latest.json'
-USERNAME = 'pandasczos'
+USERNAME = 'mhadagent'
 # Account disclosures and credentials are excluded from all displayed text.
 SENSITIVE = re.compile(
     r'\b(?:balance|balances|saldo|saldos|equity|net\s*worth|account\s*(?:value|number)|'
