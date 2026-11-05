@@ -79,7 +79,7 @@ blocked, on a failed fetch, or when the JSON is marked `sample: true`.
 After this PR is manually merged, **Update public X feed** runs every six hours
 (at minute 17 UTC) and supports `workflow_dispatch` on `main`. Add the repository
 Actions secret **X_BEARER_TOKEN** with access to the X API v2 user lookup and
-user-post timeline endpoints. The script resolves `@pandasczos`, requests the
+user-post timeline endpoints. The script resolves `@mhadagent`, requests the
 latest 100 timeline entries excluding replies (keeping posts, quotes, and
 reposts), expands public text/media, and writes up to five eligible entries in
 newest-first order. Missing entries stay as individually labeled sample cards.

@@ -22,7 +22,7 @@ class ShapeTests(unittest.TestCase):
         item = result['posts'][0]
         self.assertEqual(set(item), {'text', 'type', 'created_date', 'link', 'thumbnail'})
         self.assertEqual(item['created_date'], '2026-01-02')
-        self.assertEqual(item['link'], 'https://x.com/pandasczos/status/101')
+        self.assertEqual(item['link'], 'https://x.com/mhadagent/status/101')
         self.assertEqual(item['type'], 'post')
         self.assertNotIn('metrics', json.dumps(result))
 
@@ -36,7 +36,7 @@ class ShapeTests(unittest.TestCase):
         self.assertEqual(by_type['repost']['text'], 'Full public original text.')
         self.assertEqual(by_type['repost']['link'], 'https://x.com/i/status/202')
         self.assertEqual(by_type['quote']['text'], 'A useful idea.\n\n↳ Public source idea.')
-        self.assertEqual(by_type['quote']['link'], 'https://x.com/pandasczos/status/103')
+        self.assertEqual(by_type['quote']['link'], 'https://x.com/mhadagent/status/103')
 
     def test_latest_five_ordering_and_deduplication(self):
         data = [post(str(i), date=f'2026-01-{i:02}T12:00:00Z') for i in range(1, 9)]
@@ -69,7 +69,7 @@ class ShapeTests(unittest.TestCase):
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]['type'], 'quote')
         self.assertEqual(result[0]['text'], quote['text'] + '\n\n↳ ' + quoted_text)
-        self.assertEqual(result[0]['link'], 'https://x.com/pandasczos/status/2115721217307017717')
+        self.assertEqual(result[0]['link'], 'https://x.com/mhadagent/status/2115721217307017717')
 
     def test_own_currency_amount_is_excluded_from_posts_and_quotes(self):
         for amount in ['$500', '€500', '£500', '¥500', 'USD 500', 'BOB 500', 'Bs. 500']:
@@ -170,7 +170,7 @@ class ShapeTests(unittest.TestCase):
             query = api.call_args_list[1].args[2]
             self.assertEqual(query['exclude'], 'replies')
             self.assertNotIn('non_public_metrics', query['tweet.fields'])
-            self.assertEqual(api.call_args_list[0].args[0], 'users/by/username/pandasczos')
+            self.assertEqual(api.call_args_list[0].args[0], 'users/by/username/mhadagent')
 
 
 if __name__ == '__main__':
