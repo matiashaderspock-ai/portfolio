@@ -45,8 +45,7 @@
     }
     const title = document.createElement('span'); title.className = 'tile-title'; title.textContent = card.querySelector('h3').textContent;
     const category = document.createElement('span'); category.className = 'tile-category'; category.textContent = card.querySelector('.project-category').textContent;
-    const number = document.createElement('span'); number.className = 'tile-number'; number.textContent = String(index + 1).padStart(2, '0');
-    tile.append(art, title, category, number);
+    tile.append(art, title, category);
     tile.addEventListener('click', event => {
       if (blockedClick && event.detail) {blockedClick = false; return;}
       blockedClick = false;

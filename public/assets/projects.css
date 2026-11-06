@@ -34,9 +34,8 @@
 .project-film video { display: block; width: 100%; max-height: 75dvh; background: #000; }
 body:has(.project-film[open]) { overflow: hidden; }
 .art-1 { background: #bdd0e0; color: #294958; }.art-2 { background: #d7c8a7; color: #57482d; }.art-3 { background: #b5c9a8; color: #354f30; }.art-4 { background: #d7b8a5; color: #6a4234; }.art-5 { background: #c6bdd8; color: #4c3e65; }
-.tile-title { display: block; margin: 14px 24px 4px 4px; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
+.tile-title { display: block; margin: 14px 4px 4px; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
 .tile-category { display: block; margin-left: 4px; font-size: .65rem; color: var(--muted); }
-.tile-number { position: absolute; right: 14px; bottom: 28px; font-size: .65rem; color: var(--muted); }
 .project-browser.is-ready .projects-grid { display: block; align-self: start; min-width: 0; }
 .project-browser.is-ready .project-card { min-height: 540px; margin: 0; padding: 2rem; transform: none; background: var(--surface); border-radius: 20px; box-shadow: none; }
 .project-browser .project-card .project-top { margin-bottom: 1.5rem; }
