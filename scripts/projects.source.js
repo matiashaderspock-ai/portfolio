@@ -41,7 +41,14 @@
     art.append(card.querySelector('svg').cloneNode(true));
     if (card.dataset.cardImage) {
       const image = new Image(); image.alt = ''; image.draggable = false; image.src = card.dataset.cardImage;
-      art.classList.add('image-art'); image.onerror = () => {image.remove(); art.classList.remove('image-art');}; art.append(image);
+      let visual = image;
+      if (card.dataset.cardCrop) {
+        const crop = Number(card.dataset.cardCrop);
+        visual = document.createElement('span'); visual.className = 'project-crop';
+        visual.style.setProperty('--crop-top', crop); visual.style.setProperty('--crop-height', 600 - crop);
+        visual.append(image);
+      }
+      art.classList.add('image-art'); image.onerror = () => {visual.remove(); art.classList.remove('image-art');}; art.append(visual);
     }
     const title = document.createElement('span'); title.className = 'tile-title'; title.textContent = card.querySelector('h3').textContent;
     const category = document.createElement('span'); category.className = 'tile-category'; category.textContent = card.querySelector('.project-category').textContent;

@@ -26,6 +26,11 @@ with sync_playwright() as p:
     page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#work'); page.wait_for_selector('.project-browser.is-ready')
     assert page.locator('#work article').evaluate_all('(es)=>es.map(e=>e.id)')==order
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(lang,theme,width,'overflow')
+    assert page.locator('#grok h3').inner_text()==('Mi fleet de agentes de IA' if lang=='es' else 'My AI Agent Fleet')
+    assert page.locator('#grok .tags li').last.inner_text()=='OpenAI Dots'
+    assert page.locator('.project-crop').count()==2
+    assert page.locator('.project-crop img').evaluate_all('(es)=>es.every(e=>Math.abs(e.clientWidth/e.clientHeight-e.naturalWidth/e.naturalHeight)<.01)')
+    assert page.locator('.project-art img').evaluate_all('(es)=>es.every(e=>getComputedStyle(e).backgroundColor==="rgb(17, 31, 43)")')
     assert page.locator('.project-number, .tile-number').count()==0
     assert page.locator('.project-controls [role=status]').inner_text()=='01 / 06'
     assert page.locator('.project-art.image-art').count()==4
