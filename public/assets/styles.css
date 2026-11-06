@@ -106,7 +106,6 @@ em { color: var(--accent); font-style: normal; }
 .project-top { display: flex; align-items: start; justify-content: space-between; margin-bottom: 2rem; }
 .project-icon { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 14px; background: var(--soft); color: var(--accent); }
 .icon-grok { background: var(--button); color: var(--button-text); }
-.project-number { font-size: .75rem; color: var(--muted); }
 .project-category { font-size: .63rem; margin-bottom: .5rem; }
 .project-card h3 { font: 2.25rem/1.15 var(--serif); letter-spacing: -.02em; }
 .project-repo { color: var(--muted); font-size: .7rem; margin-top: .4rem; }

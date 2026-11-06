@@ -26,6 +26,8 @@ with sync_playwright() as p:
     page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#work'); page.wait_for_selector('.project-browser.is-ready')
     assert page.locator('#work article').evaluate_all('(es)=>es.map(e=>e.id)')==order
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(lang,theme,width,'overflow')
+    assert page.locator('.project-number, .tile-number').count()==0
+    assert page.locator('.project-controls [role=status]').inner_text()=='01 / 06'
     assert page.locator('.project-art.image-art').count()==4
     assert page.locator('.project-art img').evaluate_all('(es)=>es.every(e=>e.complete&&e.naturalWidth>0&&getComputedStyle(e).objectFit==="contain")')
     assert page.locator('video').get_attribute('preload')=='none'
@@ -33,6 +35,7 @@ with sync_playwright() as p:
     tiles=page.locator('.project-tile'); tiles.first.focus()
     for i in range(6):
      assert page.locator('#'+order[i]).is_visible()
+     assert page.locator('.project-controls [role=status]').inner_text()==f'{i+1:02d} / 06'
      if i<5: page.keyboard.press('ArrowRight')
     page.keyboard.press('Home'); assert page.locator('#grok').is_visible()
     page.keyboard.press('End'); assert page.locator('#monitor').is_visible()
