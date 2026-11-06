@@ -13,10 +13,13 @@
 .project-art::after { transform: translate(-65px, -60px); width: 200px; height: 200px; }
 .project-art svg { width: 88px; height: 88px; stroke-width: 1; z-index: 1; }
 .project-art.image-art::before, .project-art.image-art::after, .image-art svg { display: none; }
-.project-art img { width: 100%; height: 100%; object-fit: contain; background: #f6f5ef; }
+.project-art.image-art { background: #111f2b; }
+.project-art img { width: 100%; height: 100%; object-fit: contain; background: #111f2b; }
+/* Crop only the demo banner from the two 600px-square app previews. */
+.project-crop { display: block; position: relative; overflow: hidden; width: min(100%, calc(200px * 600 / var(--crop-height))); aspect-ratio: 600 / var(--crop-height); }
+.project-crop img { position: absolute; left: 0; top: calc(-100% * var(--crop-top) / var(--crop-height)); width: 100%; height: auto; }
 .project-card { min-width: 0; overflow-wrap: anywhere; }
 .project-tile[aria-haspopup="dialog"].is-selected .project-art { cursor: pointer; }
-.project-tile[aria-haspopup="dialog"] .project-art img { background: #111f2b; }
 .project-tile[aria-haspopup="dialog"].is-selected .image-art::after { display: block; content: ''; width: 0; height: 0; border: 10px solid transparent; border-left: 16px solid white; border-radius: 0; transform: none; opacity: 1; right: 4px; bottom: 10px; filter: drop-shadow(0 1px 3px #000); }
 .project-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: .5rem; }
 .project-actions .button { min-width: 0; justify-content: center; min-height: 44px; padding: .65rem .2rem; font-size: clamp(.7rem, 3.2vw, .78rem); line-height: 1.35; text-align: center; border-color: var(--line); background: var(--accent-soft); color: var(--ink); }
