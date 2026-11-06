@@ -26,7 +26,7 @@ with sync_playwright() as p:
     page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#work'); page.wait_for_selector('.project-browser.is-ready')
     assert page.locator('#work article').evaluate_all('(es)=>es.map(e=>e.id)')==order
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(lang,theme,width,'overflow')
-    assert page.locator('.project-art.image-art').count()==3
+    assert page.locator('.project-art.image-art').count()==4
     assert page.locator('.project-art img').evaluate_all('(es)=>es.every(e=>e.complete&&e.naturalWidth>0&&getComputedStyle(e).objectFit==="contain")')
     assert page.locator('video').get_attribute('preload')=='none'
     assert page.locator('video').get_attribute('src') is None
