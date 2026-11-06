@@ -33,8 +33,13 @@ with sync_playwright() as p:
   assert page.locator('#work article img, #work article video, #work .project-shot').count()==0
   assert not page.locator('#grok').get_by_text('Play fleet film',exact=True).count()
   for project in ['gastalo','cumpafit']:
+   page.locator('.project-tile.is-selected').press('ArrowRight')
    a=page.locator('#'+project);assert a.locator('.project-usage').count()==0
-   links=a.locator('.project-bottom a');assert links.count()==2
+   links=a.locator('.project-actions a');assert links.count()==2
+   assert a.locator('.project-bottom a').count()==1
+   assert not links.nth(1).is_visible()
+   a.locator('summary').click();assert links.nth(1).is_visible()
+   a.locator('summary').click()
    assert links.nth(0).inner_text()==('Open public demo' if lang=='en' else 'Abrir demo pública')
    assert links.nth(1).inner_text()==('Open personal app' if lang=='en' else 'Abrir app personal')
    assert '?demo=1' in links.nth(0).get_attribute('href')
@@ -44,6 +49,7 @@ with sync_playwright() as p:
   assert page.locator('#trading-bot-scout .project-usage').count()==0
   assert page.locator('#trading-bot-scout .project-bottom a').count()==1
   # Small-card playback remains keyboard accessible after detail media removal.
+  home(page)
   imageLink=page.locator('.project-tile').first;imageLink.focus();page.keyboard.press('Enter');page.wait_for_function('document.querySelector("video").currentTime>.1')
   assert page.locator('video').evaluate('(v)=>v.videoWidth===1280&&v.controls&&v.playsInline&&!v.autoplay')
   page.keyboard.press('Escape');page.wait_for_function('!document.querySelector("dialog").open')
@@ -118,17 +124,17 @@ with sync_playwright() as p:
  assert page.locator('#gastalo').is_visible();assert page.locator('.project-tile').first.evaluate('(e)=>getComputedStyle(e).transitionDuration')=='0s'
  assert page.locator('.project-stage').evaluate('(e)=>e.getAnimations({subtree:true}).filter(a=>a.playState==="running").length')==0
  assert not page.locator('dialog').is_visible();results.append({'reducedMotion':'PASS'});c.close()
- # Detail panels stay text-only, with both app actions on a compact mobile row.
+ # Detail panels stay text-only, with demo action and the personal action below expanded instructions.
  for lang in ['en','es']:
   for theme in ['dark','light']:
    for width in [320,360,375,390,430,1440]:
     c=context(viewport={'width':width,'height':1000});page=c.new_page();page.add_init_script(f'localStorage.setItem("mh-theme","{theme}")');page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#work')
     assert page.locator('#work article img, #work article video, #work .project-shot').count()==0
-    assert page.locator('.project-art img').count()==3
+    assert page.locator('.project-art img').count()==4
     page.locator('.project-tile').first.focus()
     for project in ['gastalo','cumpafit']:
-     page.keyboard.press('ArrowRight');links=page.locator('#'+project+' .project-actions a');boxes=links.evaluate_all('(es)=>es.map(e=>e.getBoundingClientRect().toJSON())')
-     assert abs(boxes[0]['y']-boxes[1]['y'])<1 and boxes[0]['x']+boxes[0]['width']<boxes[1]['x'],boxes
+     page.locator('.project-tile.is-selected').press('ArrowRight');page.locator('#'+project+' summary').click();links=page.locator('#'+project+' .project-actions a');boxes=links.evaluate_all('(es)=>es.map(e=>e.getBoundingClientRect().toJSON())')
+     assert boxes[1]['y']>boxes[0]['y']+boxes[0]['height'],boxes
      assert all(box['width']>=44 and box['height']>=44 for box in boxes),boxes
      assert links.evaluate_all('(es)=>es.every(e=>e.scrollWidth<=e.clientWidth+1)'),boxes
      assert links.evaluate_all('(es)=>es.every(e=>{const r=document.createRange();r.selectNodeContents(e);return r.getClientRects().length===1})'),boxes
@@ -138,10 +144,10 @@ with sync_playwright() as p:
     if width==320:
      page.evaluate('document.documentElement.style.fontSize="200%"')
      links=page.locator('#cumpafit .project-actions a');boxes=links.evaluate_all('(es)=>es.map(e=>e.getBoundingClientRect().toJSON())')
-     assert abs(boxes[0]['y']-boxes[1]['y'])<1 and all(box['height']>=44 for box in boxes)
+     assert boxes[1]['y']>boxes[0]['y'] and all(box['height']>=44 for box in boxes)
      assert links.evaluate_all('(es)=>es.every(e=>e.scrollWidth<=e.clientWidth+1)')
     c.close()
- results.append({'textOnlyPanelsAndCompactActionRows':'PASS: EN/ES × dark/light × 320/360/375/390/430/1440; 44px targets and 200% text enlargement'})
+ results.append({'textOnlyPanelsAndDisclosureActions':'PASS: EN/ES × dark/light × 320/360/375/390/430/1440; 44px targets and 200% text enlargement'})
  # Actual keyboard and touch activation follow the distinct demo/personal URLs.
  # Navigation is fulfilled locally so this check never opens a personal app.
  navigations=[]
@@ -152,6 +158,7 @@ with sync_playwright() as p:
    for index in [0,1]:
     for mode in ['keyboard','touch']:
      page.goto(BASE+'/'+('es/' if lang=='es' else '')+'#'+project);button=page.locator('#'+project+' .project-actions a').nth(index);expected=button.get_attribute('href')
+     if index==1:page.locator('#'+project+' summary').click()
      if mode=='keyboard':
       page.keyboard.press('Tab');button.focus();assert button.evaluate('(e)=>parseFloat(getComputedStyle(e).outlineWidth)>=2');page.keyboard.press('Enter')
      else:button.tap()

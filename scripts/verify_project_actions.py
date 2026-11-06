@@ -23,8 +23,8 @@ with sync_playwright() as p:
     for project in ['grok','gastalo','cumpafit','trading-bot-scout']:
      page.locator('.project-tile').first.focus();page.keyboard.press('Home')
      for _ in range(['grok','gastalo','cumpafit','trading-bot-scout'].index(project)):page.keyboard.press('ArrowRight')
-     panel=page.locator('#'+project);links=panel.locator('.project-actions .button')
-     expected=2 if project!='trading-bot-scout' else 1;assert links.count()==expected
+     panel=page.locator('#'+project);links=panel.locator('.project-bottom .button')
+     expected=2 if project=='grok' else 1;assert links.count()==expected
      if project=='grok':
       assert links.all_inner_texts()==(['See Visualization','Go to Mission Control'] if lang=='en' else ['Ver visualización','Ir al centro de control'])
       assert links.nth(0).get_attribute('href')==('/fleet-visualization/' if lang=='en' else '/es/fleet-visualization/')
@@ -45,7 +45,10 @@ with sync_playwright() as p:
       summary.focus();page.keyboard.press('Enter');assert detail.evaluate('(e)=>e.open')
       assert panel.get_by_text('iPhone · Safari:',exact=True).is_visible();assert panel.get_by_text('Android · Chrome:',exact=True).is_visible()
       assert detail.locator('li').count()==2;assert 'JSON' in detail.inner_text()
-      assert detail.locator('a').count()==0
+      assert detail.locator('a').count()==1
+      assert detail.locator('a').get_attribute('href')==f'https://matiashaderspock-ai.github.io/{project}/'
+      assert detail.locator('a').bounding_box()['y']>detail.locator('p').last.bounding_box()['y']
+      assert detail.locator('a').bounding_box()['height']>=44
       for scale in ([100,200] if width==320 else [100]):
        page.evaluate('(s)=>document.documentElement.style.fontSize=s+"%"',scale)
        assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

@@ -9,14 +9,15 @@
   stage.className = 'project-stage'; stage.setAttribute('role', 'group');
   stage.setAttribute('aria-label', es ? 'Seleccionar proyecto' : 'Select a project');
   const controls = document.createElement('div'); controls.className = 'project-controls';
-  const hint = document.createElement('p'); hint.className = 'project-hint';
-  hint.textContent = es ? 'Elige una tarjeta y desplázate · ← → · desliza' : 'Select a card, then scroll · ← → · swipe';
+  const visual = document.createElement('div'); visual.className = 'project-visual';
   const status = document.createElement('span'); status.setAttribute('role', 'status');
   const previous = document.createElement('button'), next = document.createElement('button');
+  previous.type = next.type = 'button';
   previous.textContent = '←'; next.textContent = '→';
   previous.setAttribute('aria-label', es ? 'Proyecto anterior' : 'Previous project');
   next.setAttribute('aria-label', es ? 'Proyecto siguiente' : 'Next project');
-  controls.append(previous, status, next); grid.before(browser); browser.append(stage, grid, hint, controls);
+  controls.append(previous, status, next); visual.append(stage, controls);
+  grid.before(browser); browser.append(visual, grid);
   const dialog = document.querySelector('.project-film'), video = dialog.querySelector('video');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let opener, selected = 0, blockedClick = false, gesture;
