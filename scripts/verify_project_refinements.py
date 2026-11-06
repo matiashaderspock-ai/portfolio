@@ -133,7 +133,7 @@ with sync_playwright() as p:
     assert page.locator('.project-art img').count()==4
     page.locator('.project-tile').first.focus()
     for project in ['gastalo','cumpafit']:
-     page.keyboard.press('ArrowRight');page.locator('#'+project+' summary').click();links=page.locator('#'+project+' .project-actions a');boxes=links.evaluate_all('(es)=>es.map(e=>e.getBoundingClientRect().toJSON())')
+     page.locator('.project-tile.is-selected').press('ArrowRight');page.locator('#'+project+' summary').click();links=page.locator('#'+project+' .project-actions a');boxes=links.evaluate_all('(es)=>es.map(e=>e.getBoundingClientRect().toJSON())')
      assert boxes[1]['y']>boxes[0]['y']+boxes[0]['height'],boxes
      assert all(box['width']>=44 and box['height']>=44 for box in boxes),boxes
      assert links.evaluate_all('(es)=>es.every(e=>e.scrollWidth<=e.clientWidth+1)'),boxes
