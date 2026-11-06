@@ -33,6 +33,7 @@ with sync_playwright() as p:
   assert page.locator('#work article img, #work article video, #work .project-shot').count()==0
   assert not page.locator('#grok').get_by_text('Play fleet film',exact=True).count()
   for project in ['gastalo','cumpafit']:
+   page.locator('.project-tile.is-selected').press('ArrowRight')
    a=page.locator('#'+project);assert a.locator('.project-usage').count()==0
    links=a.locator('.project-actions a');assert links.count()==2
    assert a.locator('.project-bottom a').count()==1
@@ -48,6 +49,7 @@ with sync_playwright() as p:
   assert page.locator('#trading-bot-scout .project-usage').count()==0
   assert page.locator('#trading-bot-scout .project-bottom a').count()==1
   # Small-card playback remains keyboard accessible after detail media removal.
+  home(page)
   imageLink=page.locator('.project-tile').first;imageLink.focus();page.keyboard.press('Enter');page.wait_for_function('document.querySelector("video").currentTime>.1')
   assert page.locator('video').evaluate('(v)=>v.videoWidth===1280&&v.controls&&v.playsInline&&!v.autoplay')
   page.keyboard.press('Escape');page.wait_for_function('!document.querySelector("dialog").open')
