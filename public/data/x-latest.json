@@ -2,6 +2,13 @@
   "sample": false,
   "posts": [
     {
+      "text": "Labs fighting about who is ahead on scientific discoveries, let’s go!! https://t.co/INyg7ss0iZ\n\n↳ Wait till you see what we been up at @Meta :) https://t.co/bnGveTuaBj",
+      "type": "quote",
+      "created_date": "2026-11-09",
+      "link": "https://x.com/mhadagent/status/2119684829679845652",
+      "thumbnail": null
+    },
+    {
       "text": "Finally heard, go write everybody https://t.co/pj0RUS0HTT\n\n↳ Improvements to token efficiency &amp; behavior in Grok Bot are underway\n\nMany of you have built important workflows on @bot - we want to keep supporting you\n\nPlease reply with feedback on this post. I will read it all\n\nThank you sincerely for your support https://t.co/vTJ2xf8Vvq",
       "type": "quote",
       "created_date": "2026-11-08",
@@ -27,13 +34,6 @@
       "type": "repost",
       "created_date": "2026-11-07",
       "link": "https://x.com/i/status/2119076154011500967",
-      "thumbnail": null
-    },
-    {
-      "text": "After 2 weeks of intense playing around with Grok Bot I can confidently say: it’s unusable right now.\n\nMy limit is vanishing super fast and the model looks stupid.\n\nMoved from awesome tool to stupid tool really fast.\n\nTime to test new things. https://t.co/9xx9lA2izY",
-      "type": "repost",
-      "created_date": "2026-11-07",
-      "link": "https://x.com/i/status/2119018016000335935",
       "thumbnail": null
     }
   ]
