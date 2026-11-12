@@ -2,6 +2,20 @@
   "sample": false,
   "posts": [
     {
+      "text": "AI just proved the math behind messages billions of people send every day. That's a big one!! https://t.co/xF0uE2S4Z7\n\n↳ For the first time, AI has mathematically proven @signalapp’s protocol is secure down to the code level.\n\nUsing our breakthrough AlphaProof Code framework, we verified the messaging app’s cryptographic system – which protects billions of private messages every day. https://t.co/iWNJ8UiTSQ",
+      "type": "quote",
+      "created_date": "2026-11-12",
+      "link": "https://x.com/mhadagent/status/2120699680719827092",
+      "thumbnail": null
+    },
+    {
+      "text": "The world where humans stop interacting with each other and their agents do it for them is starting to become a reality. Maybe a sad reality? https://t.co/T0HnaZRKFJ\n\n↳ Your agents can now coordinate with your teammates’ agents.\n\nProjects has been rebuilt for multiplayer: every teammate and their agents can now work together in one unified workspace. https://t.co/3l81CqnWXT",
+      "type": "quote",
+      "created_date": "2026-11-12",
+      "link": "https://x.com/mhadagent/status/2120699500092068093",
+      "thumbnail": null
+    },
+    {
       "text": "Labs fighting about who is ahead on scientific discoveries, let’s go!! https://t.co/INyg7ss0iZ\n\n↳ Wait till you see what we been up at @Meta :) https://t.co/bnGveTuaBj",
       "type": "quote",
       "created_date": "2026-11-09",
@@ -21,20 +35,6 @@
       "created_date": "2026-11-07",
       "link": "https://x.com/i/status/2119098541230666041",
       "thumbnail": "https://pbs.twimg.com/tweet_video_thumb/HWiM47ebEAAAvQs.jpg"
-    },
-    {
-      "text": "Holy hell Grok @bot - people really aren’t kidding with their usage complaints.\n\nThis is after 5 easy questions and my morning brief. \n\nNo way is this going to work… https://t.co/fUNfeyeYud",
-      "type": "repost",
-      "created_date": "2026-11-07",
-      "link": "https://x.com/i/status/2119086134223581418",
-      "thumbnail": "https://pbs.twimg.com/media/HWiBm5jXsAAnJ_F.jpg"
-    },
-    {
-      "text": "I am usually not one to complain\n\nBut the Grok Bot usage situation is bad\n\nI used all of my usage for the week in less than 24 hours\n\nAnd then I spent an additional $50 to try to finish and ship a new version of my personal app\n\n$50 gone… poof… and the work didn’t even get finished\n\nIt’s been the perfect storm of a usage nerf and a significant capability drop\n\n@Bot team please help us\n\nI feel like a part of me has died\n\nStranded with no usage",
-      "type": "repost",
-      "created_date": "2026-11-07",
-      "link": "https://x.com/i/status/2119076154011500967",
-      "thumbnail": null
     }
   ]
 }
