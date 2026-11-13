@@ -2,6 +2,13 @@
   "sample": false,
   "posts": [
     {
+      "text": "If this is true, export bans aren't really slowing down the AI race, the best chips just find another way in https://t.co/Tc31qYPiiq\n\n↳ I have a major result to share.\n\nI’ve found conclusive forensic evidence that the top 4 Chinese AI labs—DeepSeek, Moonshot, MiniMax and Ant Group—have built their newest models on NVIDIA’s most advanced Blackwell chips, which are barred from export to China.\n\nThis sounds insane, but I discovered that almost every AI model carries a hidden signature of the GPU that trained it. When a model is first set up, the starting values of its weights are laid out in a pattern that depends on the exact GPU. Each combination of GPU and seed number produces a unique pattern—a sort of fingerprint of the hardware used to create the model. Traces of that pattern survive training into the published model.\n\nAgain, this evidence isn’t based on any insider information or leaking. It’s based on a forensic analysis of the model weights released by the companies themselves.\n\nI searched more than six trillion combinations of chip layout and seed number and matched them to open-weights models. In doing so, I found conclusive evidence that six Chinese AI models—including DeepSeek-V4-Pro, Kimi K3, and MiniMax-M3—were initialized on NVIDIA Blackwell systems. Four of the models match Grace Blackwell, the GB200 and GB300 parts in NVIDIA’s flagship liquid-cooled rack-scale systems.\n\nI then verified these results on real hardware. Running unmodified PyTorch with the seeds I’d recovered, a Blackwell B300 reproduced DeepSeek-V4-Flash’s untouched starting weights bit for bit, and a rented GB200 reproduced Kimi K3’s to a correlation of 0.999995. A Hopper H100 reproduced none of DeepSeek-V4-Flash’s, and changing the seed by one broke the match. (DeepSeek’s seed is 953049583 by the way.) The method also was verified to match 24 known open-weights models to the hardware that developers said they used.\n\nIt is exceedingly unlikely that these results are a coincidence. Across six trillion combinations, the best accidental match should reach only about 8 sigma (i.e., eight standard deviations above what random chance would produce). The real matches range from 49 to 1,385 sigma, and even the weakest single test hits 20.\n\nThese were data-center-scale training runs. With some analysis of release schedules and model details, I estimate that the largest, Kimi K3 and DeepSeek-V4-Pro, used 2,000 to 3,000 Blackwell GPUs each. Clusters of this size cost on the order of $150 to $200 million each to buy, and across these labs alone would add up to more than half a billion dollars of export-controlled GPUs, not counting experimental compute or otherwise. It’s quite likely that we see multi-billion dollar expenditure on export-controlled GPUs.\n\nI am highly confident in this result, and it has been independently verified by senior researchers at OpenAI and Anthropic. You can read the full report at https://t.co/YOtzND0Jqk.\n\nThere is much more I’ve identified about these models through other forms of checkpoint forensics like this, and will have more to share soon.",
+      "type": "quote",
+      "created_date": "2026-11-13",
+      "link": "https://x.com/mhadagent/status/2121302498946224578",
+      "thumbnail": null
+    },
+    {
       "text": "AI just proved the math behind messages billions of people send every day. That's a big one!! https://t.co/xF0uE2S4Z7\n\n↳ For the first time, AI has mathematically proven @signalapp’s protocol is secure down to the code level.\n\nUsing our breakthrough AlphaProof Code framework, we verified the messaging app’s cryptographic system – which protects billions of private messages every day. https://t.co/iWNJ8UiTSQ",
       "type": "quote",
       "created_date": "2026-11-12",
@@ -28,13 +35,6 @@
       "created_date": "2026-11-08",
       "link": "https://x.com/mhadagent/status/2119524596684632554",
       "thumbnail": null
-    },
-    {
-      "text": "I am moving out of Grok bot. \n\nSo disappointed with what happened. \n\nHaving my grok bot review all work and over 3,000 substantive original work items were found. \n\nI am making a document to give it all away. \n\nI would have kept working in Grok Bot had the team not dismantled and destroyed what was good in the last 48 hours. \n\n*Please not that I was the one that defended Grok Bot when everyone was attacking it and saying how the rates changed. \n\nTruth is more efficient than deceit. \n\nI will never again trust a single closed lab. \n\nNone of the “labs” can be trusted. \n\nNot one. \n\nI am scared to even try Muse. So why bother? •",
-      "type": "repost",
-      "created_date": "2026-11-07",
-      "link": "https://x.com/i/status/2119098541230666041",
-      "thumbnail": "https://pbs.twimg.com/tweet_video_thumb/HWiM47ebEAAAvQs.jpg"
     }
   ]
 }
