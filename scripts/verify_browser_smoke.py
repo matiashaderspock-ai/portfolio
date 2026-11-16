@@ -85,6 +85,17 @@ def check_page(browser, base, language, width):
         page.locator(".project-tile.is-selected").press("End")
         expect(page.locator("#monitor")).to_be_visible()
         page.locator(".project-tile.is-selected").press("Home")
+        stage = page.locator(".project-stage")
+        stage.scroll_into_view_if_needed()
+        box = stage.bounding_box()
+        x, y = box["x"] + box["width"] * 0.6, box["y"] + 150
+        page.mouse.move(x, y)
+        page.mouse.down()
+        page.mouse.move(x - 100, y, steps=6)
+        page.mouse.up()
+        expect(page.locator("#gastalo")).to_be_visible()
+        expect(page.locator("dialog.project-film")).not_to_be_visible()
+        page.locator(".project-tile.is-selected").press("Home")
         tile = page.locator(".project-tile").first
         dialog = page.locator("dialog.project-film")
         video = dialog.locator("video")
@@ -117,7 +128,7 @@ def check_page(browser, base, language, width):
             assert video.evaluate("element => element.paused")
             assert_stable(before, geometry(page))
         assert not errors, errors
-        print(f"PASS {language} {width}px: navigation, install help, stable film and dismissals")
+        print(f"PASS {language} {width}px: navigation, pointer swipe, install help, stable film and dismissals")
     finally:
         context.close()
 
