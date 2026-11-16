@@ -29,6 +29,8 @@
 .project-install p { margin: .5rem 0; }
 .project-install ul { padding-left: 1.2rem; margin: .5rem 0; }
 .project-install li + li { margin-top: .5rem; }
+/* Keep the existing modal scroll lock from changing the page's usable width. */
+html:has(.project-film) { scrollbar-gutter: stable; }
 .project-film { width: min(960px, calc(100% - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink); overflow: auto; }
 .project-film::backdrop { background: #000b; }
 .film-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
