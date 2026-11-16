@@ -22,3 +22,20 @@ jobs:
         run: python3 scripts/check.py
       - name: Test public X JSON shaping
         run: python3 -m unittest discover -s scripts -p 'test_x_latest.py' -v
+
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install browser test tools
+        timeout-minutes: 5
+        run: |
+          python -m pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+      - name: Check project interactions in English and Spanish
+        timeout-minutes: 3
+        run: python scripts/verify_browser_smoke.py

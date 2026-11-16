@@ -14,6 +14,15 @@ python3 scripts/check.py
 
 The dependency-free check validates HTML nesting, local links and fragments, duplicate IDs, document language, key SEO/Open Graph fields, reciprocal hreflang links, sitemap entries, image alternatives, and a 12 KB total JavaScript budget. It rejects unfinished placeholder text and empty links. It does not fetch external links. The GitHub Actions workflow runs checks on PRs and `main`; it has read-only permissions and does not deploy anything.
 
+CI also runs `python scripts/verify_browser_smoke.py` with Playwright 1.62.0 and
+Chromium. This loopback-only check starts its own preview and covers English and
+Spanish at desktop and phone widths: project selection, keyboard navigation,
+installation details, film scroll stability, dismissal and restored focus.
+It keeps classic scrollbars visible so the dialog-width regression cannot be
+hidden by headless browser defaults. Browser installation has a five-minute
+limit and the smoke check a three-minute limit. Locally, pass
+`--browser /path/to/chromium` to reuse an installed browser.
+
 ## Cloudflare Pages settings
 
 Set this up manually **after reviewing and merging the feature PR**. The initial `main` branch contains only this README until the PR is merged; the site files are in the feature branch. This repository has no GitHub Pages workflow.
