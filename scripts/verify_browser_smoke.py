@@ -124,8 +124,11 @@ def check_page(browser, base, language, width):
                 page.mouse.click(2, 2)
             expect(dialog).not_to_be_visible()
             expect(tile).to_be_focused()
-            assert video.get_attribute("src") is None
-            assert video.evaluate("element => element.paused")
+            # Native close queues its event; visibility can change before cleanup.
+            page.wait_for_function("""() => {
+              const film = document.querySelector('.project-film video');
+              return !film.hasAttribute('src') && film.paused;
+            }""")
             assert_stable(before, geometry(page))
         assert not errors, errors
         print(f"PASS {language} {width}px: navigation, pointer swipe, install help, stable film and dismissals")
