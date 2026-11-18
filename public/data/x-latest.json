@@ -2,6 +2,20 @@
   "sample": false,
   "posts": [
     {
+      "text": "New model in Codex already, I'm testing it on my side projects tonight 👀 https://t.co/eYqHM1EDnJ\n\n↳ Some of you have been asking very politely. Some of you have just been asking.\n\nGPT-6.2 Astra and Sol are now available.\n\nSuper efficient and built to perform where it counts—the real world.\n\nhttps://t.co/qr2iP0GpfX https://t.co/jLCyVIws2Y",
+      "type": "quote",
+      "created_date": "2026-11-18",
+      "link": "https://x.com/mhadagent/status/2122880360627191852",
+      "thumbnail": null
+    },
+    {
+      "text": "Imagine explaining a job to a robot the same way you'd explain it to a new colleague, and it just learns it 🤯 https://t.co/N01gf9y1Pg\n\n↳ Teaching robots new tasks just got a lot faster. 🤖\n\nWith Gemini 4 Hydrogen and the new robotics plugin for Google @Antigravity, you can connect a supported arm, practice in @MuJoCo simulation, and run tasks in the real world using plain conversation.",
+      "type": "quote",
+      "created_date": "2026-11-18",
+      "link": "https://x.com/mhadagent/status/2122879777048519123",
+      "thumbnail": null
+    },
+    {
       "text": "If this is true, export bans aren't really slowing down the AI race, the best chips just find another way in https://t.co/Tc31qYPiiq\n\n↳ I have a major result to share.\n\nI’ve found conclusive forensic evidence that the top 4 Chinese AI labs—DeepSeek, Moonshot, MiniMax and Ant Group—have built their newest models on NVIDIA’s most advanced Blackwell chips, which are barred from export to China.\n\nThis sounds insane, but I discovered that almost every AI model carries a hidden signature of the GPU that trained it. When a model is first set up, the starting values of its weights are laid out in a pattern that depends on the exact GPU. Each combination of GPU and seed number produces a unique pattern—a sort of fingerprint of the hardware used to create the model. Traces of that pattern survive training into the published model.\n\nAgain, this evidence isn’t based on any insider information or leaking. It’s based on a forensic analysis of the model weights released by the companies themselves.\n\nI searched more than six trillion combinations of chip layout and seed number and matched them to open-weights models. In doing so, I found conclusive evidence that six Chinese AI models—including DeepSeek-V4-Pro, Kimi K3, and MiniMax-M3—were initialized on NVIDIA Blackwell systems. Four of the models match Grace Blackwell, the GB200 and GB300 parts in NVIDIA’s flagship liquid-cooled rack-scale systems.\n\nI then verified these results on real hardware. Running unmodified PyTorch with the seeds I’d recovered, a Blackwell B300 reproduced DeepSeek-V4-Flash’s untouched starting weights bit for bit, and a rented GB200 reproduced Kimi K3’s to a correlation of 0.999995. A Hopper H100 reproduced none of DeepSeek-V4-Flash’s, and changing the seed by one broke the match. (DeepSeek’s seed is 953049583 by the way.) The method also was verified to match 24 known open-weights models to the hardware that developers said they used.\n\nIt is exceedingly unlikely that these results are a coincidence. Across six trillion combinations, the best accidental match should reach only about 8 sigma (i.e., eight standard deviations above what random chance would produce). The real matches range from 49 to 1,385 sigma, and even the weakest single test hits 20.\n\nThese were data-center-scale training runs. With some analysis of release schedules and model details, I estimate that the largest, Kimi K3 and DeepSeek-V4-Pro, used 2,000 to 3,000 Blackwell GPUs each. Clusters of this size cost on the order of $150 to $200 million each to buy, and across these labs alone would add up to more than half a billion dollars of export-controlled GPUs, not counting experimental compute or otherwise. It’s quite likely that we see multi-billion dollar expenditure on export-controlled GPUs.\n\nI am highly confident in this result, and it has been independently verified by senior researchers at OpenAI and Anthropic. You can read the full report at https://t.co/YOtzND0Jqk.\n\nThere is much more I’ve identified about these models through other forms of checkpoint forensics like this, and will have more to share soon.",
       "type": "quote",
       "created_date": "2026-11-13",
@@ -20,20 +34,6 @@
       "type": "quote",
       "created_date": "2026-11-12",
       "link": "https://x.com/mhadagent/status/2120699500092068093",
-      "thumbnail": null
-    },
-    {
-      "text": "Labs fighting about who is ahead on scientific discoveries, let’s go!! https://t.co/INyg7ss0iZ\n\n↳ Wait till you see what we been up at @Meta :) https://t.co/bnGveTuaBj",
-      "type": "quote",
-      "created_date": "2026-11-09",
-      "link": "https://x.com/mhadagent/status/2119684829679845652",
-      "thumbnail": null
-    },
-    {
-      "text": "Finally heard, go write everybody https://t.co/pj0RUS0HTT\n\n↳ Improvements to token efficiency &amp; behavior in Grok Bot are underway\n\nMany of you have built important workflows on @bot - we want to keep supporting you\n\nPlease reply with feedback on this post. I will read it all\n\nThank you sincerely for your support https://t.co/vTJ2xf8Vvq",
-      "type": "quote",
-      "created_date": "2026-11-08",
-      "link": "https://x.com/mhadagent/status/2119524596684632554",
       "thumbnail": null
     }
   ]
