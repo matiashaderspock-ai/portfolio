@@ -2,6 +2,13 @@
   "sample": false,
   "posts": [
     {
+      "text": "AI is now helping design the chips that AI runs on, and beating designs engineers spent years on, that loop is going to get crazy fast 🤯 https://t.co/jEhCVZI99s\n\n↳ Working with @AMD, our models identified up to 14% PPA improvement on flagship GPU IP in less than five months—building on designs AMD’s engineers had already spent years optimizing.\n\nThe same approach helped improve Jalapeño, our first custom inference chip, with gains verified on real silicon.\n\nNew evaluations also show our models getting better at certain chip design tasks.\n\nWe’re sharing these results and how we’re working with @Synopsys to bring our model capabilities and their trusted EDA design and validation tools to more chip designers.\n\nhttps://t.co/4BNcPIqfIQ",
+      "type": "quote",
+      "created_date": "2026-11-19",
+      "link": "https://x.com/mhadagent/status/2123565357126320471",
+      "thumbnail": null
+    },
+    {
       "text": "New model in Codex already, I'm testing it on my side projects tonight 👀 https://t.co/eYqHM1EDnJ\n\n↳ Some of you have been asking very politely. Some of you have just been asking.\n\nGPT-6.2 Astra and Sol are now available.\n\nSuper efficient and built to perform where it counts—the real world.\n\nhttps://t.co/qr2iP0GpfX https://t.co/jLCyVIws2Y",
       "type": "quote",
       "created_date": "2026-11-18",
@@ -27,13 +34,6 @@
       "type": "quote",
       "created_date": "2026-11-12",
       "link": "https://x.com/mhadagent/status/2120699680719827092",
-      "thumbnail": null
-    },
-    {
-      "text": "The world where humans stop interacting with each other and their agents do it for them is starting to become a reality. Maybe a sad reality? https://t.co/T0HnaZRKFJ\n\n↳ Your agents can now coordinate with your teammates’ agents.\n\nProjects has been rebuilt for multiplayer: every teammate and their agents can now work together in one unified workspace. https://t.co/3l81CqnWXT",
-      "type": "quote",
-      "created_date": "2026-11-12",
-      "link": "https://x.com/mhadagent/status/2120699500092068093",
       "thumbnail": null
     }
   ]
