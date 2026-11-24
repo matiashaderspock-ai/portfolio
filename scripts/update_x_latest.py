@@ -2,10 +2,12 @@
 """Public-only X v2 feed. Stdlib only; --sample is a network-free dry run."""
 import argparse
 from datetime import datetime, timezone
+from http.client import HTTPException
 import json
 import os
 from pathlib import Path
 import re
+import sys
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -22,6 +24,10 @@ SENSITIVE = re.compile(
     r'\d[\d\s().+-]{8,}\d|[?&](?:token|key|auth|signature|secret)=', re.I)
 # Currency amounts are excluded only from Matias's own post/quote text.
 SENSITIVE_AMOUNT = re.compile(r'(?:[$€£¥]|\b(?:USD|BOB|Bs\.?))\s*[\d,.]+', re.I)
+DIAGNOSTIC_CREDENTIAL = re.compile(
+    r"""(?:ghp_|github_pat_|sk-)[\w-]+|"""
+    r"""\b(?:api[_-]?key|access[_-]?token|token|secret|password)["']?\s*[:=]\s*["']?[^\s"'&,;}]+""", re.I)
+SNIPPET_LIMIT = 500
 
 
 def sample_feed():
@@ -166,6 +172,40 @@ def write_feed(feed, output):
     temporary.replace(output)
 
 
+def diagnostic_text(text, token, *, truncated=False):
+    if token:
+        text = text.replace(token, '***')
+        if truncated:
+            # The read limit can split a bare token before its last character.
+            for size in range(min(len(text), len(token) - 1), 0, -1):
+                if text.endswith(token[:size]):
+                    text = text[:-size] + '***'
+                    break
+    text = re.sub(r"""((?:https?://|/)[^\s"'<>?#]*)\?[^\s"'<>]*""", r'\1', text)
+    text = re.sub(r"""\bbearer\s+[^\s"'<>]+""", '***', text, flags=re.I)
+    text = DIAGNOSTIC_CREDENTIAL.sub('***', text)
+    return ''.join(char if char.isprintable() else ' ' for char in text)
+
+
+def log_failure(error, token):
+    if not isinstance(error, HTTPError):
+        print(f'{type(error).__name__}: {diagnostic_text(str(error), token)}', file=sys.stderr)
+        return
+
+    details = [f'HTTP {error.code}', urlsplit(error.geturl()).path]
+    for name, value in (error.headers or {}).items():
+        if name.lower() in ('x-rate-limit-remaining', 'x-rate-limit-reset', 'retry-after'):
+            details.append(f'{name.lower()}={value}')
+    try:
+        with error:
+            body = error.read(4 * SNIPPET_LIMIT)
+        snippet = diagnostic_text(body.decode('utf-8', errors='replace'), token,
+                                  truncated=len(body) == 4 * SNIPPET_LIMIT)[:SNIPPET_LIMIT]
+    except (OSError, HTTPException, ValueError):
+        snippet = '<unavailable>'
+    print(diagnostic_text(' '.join(details), token), f'body={snippet}', file=sys.stderr)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
@@ -184,7 +224,7 @@ def main(argv=None):
             feed = fetch_feed(token)
         write_feed(feed, args.output)
     except (HTTPError, URLError, TimeoutError, OSError, ValueError, TypeError) as error:
-        # Never log API response bodies, request headers, tokens, or post text.
+        log_failure(error, token)
         print(f'X feed update failed ({type(error).__name__}); existing data left unchanged.')
         return 1
     print(f'Wrote {len(feed["posts"])} public feed cards (sample={feed["sample"]}).')
