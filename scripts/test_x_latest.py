@@ -1,11 +1,14 @@
 """Synthetic JSON shaping and offline failure-path checks; no credentials/network."""
+from contextlib import redirect_stderr, redirect_stdout
 from copy import deepcopy
+from email.message import Message
+from io import BytesIO, StringIO
 import json
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 
 import update_x_latest as feed
 
@@ -143,19 +146,16 @@ class ShapeTests(unittest.TestCase):
             self.assertEqual(feed.main(['--sample', '--output', str(Path(directory) / 'feed.json')]), 0)
             api.assert_not_called()
 
-    def test_failed_api_preserves_existing_feed(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict('os.environ', {'X_BEARER_TOKEN': '[redacted]'}), patch.object(feed, 'fetch_feed', side_effect=URLError('unavailable')):
-            output = Path(directory) / 'feed.json'
-            output.write_text('unchanged')
-            self.assertEqual(feed.main(['--output', str(output)]), 1)
-            self.assertEqual(output.read_text(), 'unchanged')
-
     def test_fixture_dry_run(self):
         with tempfile.TemporaryDirectory() as directory:
             fixture, output = Path(directory) / 'input.json', Path(directory) / 'output.json'
             fixture.write_text(json.dumps({'data': [post()]}))
-            self.assertEqual(feed.main(['--fixture', str(fixture), '--output', str(output)]), 0)
-            self.assertFalse(json.loads(output.read_text())['sample'])
+            stdout, stderr = StringIO(), StringIO()
+            with redirect_stdout(stdout), redirect_stderr(stderr):
+                self.assertEqual(feed.main(['--fixture', str(fixture), '--output', str(output)]), 0)
+            self.assertEqual(json.loads(output.read_text()), feed.shape_feed({'data': [post()]}))
+            self.assertEqual(stdout.getvalue(), 'Wrote 1 public feed cards (sample=False).\n')
+            self.assertEqual(stderr.getvalue(), '')
 
     def test_protected_profile_is_never_fetched(self):
         with patch.object(feed, 'api_get', return_value={'data': {'id': '42', 'protected': True}}) as api:
@@ -171,6 +171,82 @@ class ShapeTests(unittest.TestCase):
             self.assertEqual(query['exclude'], 'replies')
             self.assertNotIn('non_public_metrics', query['tweet.fields'])
             self.assertEqual(api.call_args_list[0].args[0], 'users/by/username/mhadagent')
+
+
+class DiagnosticTests(unittest.TestCase):
+    token = 'test-bearer-token-value-do-not-leak'
+
+    def run_failure(self, response, error_type):
+        with tempfile.TemporaryDirectory() as directory, patch.object(feed, 'build_opener') as opener:
+            output = Path(directory) / 'feed.json'
+            output.write_bytes(b'unchanged\n')
+            opener.return_value.open.side_effect = [response]
+            stdout, stderr = StringIO(), StringIO()
+            with patch.dict('os.environ', {'X_BEARER_TOKEN': self.token}), redirect_stdout(stdout), redirect_stderr(stderr):
+                code = feed.main(['--output', str(output)])
+            self.assertEqual(code, 1)
+            self.assertEqual(output.read_bytes(), b'unchanged\n')
+            self.assertFalse(self.token in stdout.getvalue() + stderr.getvalue(), 'credential in log')
+            self.assertEqual(stdout.getvalue(), f'X feed update failed ({error_type}); existing data left unchanged.\n')
+            return stderr.getvalue()
+
+    def http_failure(self, status, body, headers=()):
+        url = 'https://api.x.com/2/users/by/username/mhadagent?omit-this-query=yes'
+        stream = BytesIO(body)
+        response_headers = Message()
+        for name, value in headers:
+            response_headers[name] = value
+        error = HTTPError(url, status, 'request failed', response_headers, stream)
+        diagnostic = self.run_failure(error, 'HTTPError')
+        self.assertTrue(stream.closed)
+        self.assertIn(str(status), diagnostic)
+        self.assertIn('/2/users/by/username/mhadagent', diagnostic)
+        self.assertNotIn('api.x.com', diagnostic)
+        self.assertNotIn('omit-this-query', diagnostic)
+        return diagnostic
+
+    def test_unauthorized_redacts_credentials(self):
+        body = f'access denied: {self.token}, ghp_example, "access_token": "bEaReR another-test-value"'
+        diagnostic = self.http_failure(401, body.encode(), [('Set-Cookie', 'unrelated-cookie')])
+        self.assertIn('access denied', diagnostic)
+        self.assertIn('***', diagnostic)
+        for omitted in ('another-test-value', 'ghp_example', 'unrelated-cookie', 'retry-after'):
+            self.assertNotIn(omitted, diagnostic.lower())
+
+    def test_rate_limit_headers(self):
+        headers = [('X-Rate-Limit-Remaining', '0'), ('X-Rate-Limit-Reset', '1795478400'), ('Retry-After', '37')]
+        diagnostic = self.http_failure(429, b'', headers)
+        for name, value in headers:
+            self.assertRegex(diagnostic.lower(), name.lower() + r'\s*[:=]\s*' + value + r'\b')
+
+    def test_unavailable_body_snippet_is_bounded(self):
+        prefix = 'Service unavailable. '
+        diagnostic = self.http_failure(503, (prefix + '~' * 10000 + 'omitted-tail').encode())
+        self.assertIn(prefix, diagnostic)
+        self.assertLessEqual(len(prefix) + diagnostic.count('~'), 500)
+        self.assertNotIn('omitted-tail', diagnostic)
+
+    def test_redacts_token_across_snippet_boundary(self):
+        for prefix in ('x' * 480, 'Bearer ' + 'x' * 1971 + ' '):
+            with self.subTest(prefix_length=len(prefix)):
+                diagnostic = self.http_failure(503, (prefix + self.token).encode())
+                self.assertNotIn('test-bearer-token', diagnostic)
+                self.assertIn('***', diagnostic)
+
+    def test_failed_api_preserves_existing_feed(self):
+        for kind in (URLError, TimeoutError):
+            with self.subTest(kind=kind):
+                error = kind(f'unavailable: {self.token}, Bearer another-test-value')
+                diagnostic = self.run_failure(error, kind.__name__)
+                self.assertIn(kind.__name__, diagnostic)
+                self.assertIn('unavailable', diagnostic)
+                self.assertIn('***', diagnostic)
+                self.assertNotIn('another-test-value', diagnostic)
+
+    def test_invalid_json_response(self):
+        diagnostic = self.run_failure(BytesIO(b'invalid json'), 'JSONDecodeError')
+        self.assertIn('JSONDecodeError', diagnostic)
+        self.assertIn('Expecting value', diagnostic)
 
 
 if __name__ == '__main__':
